@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{2415882b-5f6d-4fdf-9dea-bd5b9cbeb36d}</ProjectGuid>
+    <RootNamespace>Tail_Run</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Change.cpp" />
+    <ClCompile Include="Source\Claws.cpp" />
+    <ClCompile Include="Source\Coin.cpp" />
+    <ClCompile Include="Source\Draw.cpp" />
+    <ClCompile Include="Source\Food.cpp" />
+    <ClCompile Include="Source\Goal.cpp" />
+    <ClCompile Include="Source\Ice.cpp" />
+    <ClCompile Include="Source\Initial.cpp" />
+    <ClCompile Include="Source\Input.cpp" />
+    <ClCompile Include="Source\Key.cpp" />
+    <ClCompile Include="Source\Load.cpp" />
+    <ClCompile Include="Source\Magma.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Select.cpp" />
+    <ClCompile Include="Source\Shake.cpp" />
+    <ClCompile Include="Source\Slime.cpp" />
+    <ClCompile Include="Source\Wing.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\stage\stage1.csv" />
+    <None Include="Resource\stage\stage10.csv" />
+    <None Include="Resource\stage\stage11.csv" />
+    <None Include="Resource\stage\stage12.csv" />
+    <None Include="Resource\stage\stage13.csv" />
+    <None Include="Resource\stage\stage14.csv" />
+    <None Include="Resource\stage\stage15.csv" />
+    <None Include="Resource\stage\stage16.csv" />
+    <None Include="Resource\stage\stage17.csv" />
+    <None Include="Resource\stage\stage18.csv" />
+    <None Include="Resource\stage\stage19.csv" />
+    <None Include="Resource\stage\stage2.csv" />
+    <None Include="Resource\stage\stage20.csv" />
+    <None Include="Resource\stage\stage3.csv" />
+    <None Include="Resource\stage\stage4.csv" />
+    <None Include="Resource\stage\stage5.csv" />
+    <None Include="Resource\stage\stage6.csv" />
+    <None Include="Resource\stage\stage7.csv" />
+    <None Include="Resource\stage\stage8.csv" />
+    <None Include="Resource\stage\stage9.csv" />
+    <None Include="Resource\stage\title.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\icon.ico" />
+    <Image Include="Resource\graphic\apple.png" />
+    <Image Include="Resource\graphic\A_button.png" />
+    <Image Include="Resource\graphic\block_sample.png" />
+    <Image Include="Resource\graphic\clear.png" />
+    <Image Include="Resource\graphic\cloud1.png" />
+    <Image Include="Resource\graphic\cloud2.png" />
+    <Image Include="Resource\graphic\coin.png" />
+    <Image Include="Resource\graphic\door.png" />
+    <Image Include="Resource\graphic\forest.png" />
+    <Image Include="Resource\graphic\forestBlock.png" />
+    <Image Include="Resource\graphic\gameover.png" />
+    <Image Include="Resource\graphic\gameoverSelect.png" />
+    <Image Include="Resource\graphic\hungry.png" />
+    <Image Include="Resource\graphic\Key.png" />
+    <Image Include="Resource\graphic\mountain.png" />
+    <Image Include="Resource\graphic\Pile.png" />
+    <Image Include="Resource\graphic\player\hookShot.png" />
+    <Image Include="Resource\graphic\player\player_hungry.png" />
+    <Image Include="Resource\graphic\player\player_idle.png" />
+    <Image Include="Resource\graphic\player\player_run.png" />
+    <Image Include="Resource\graphic\player\wing.png" />
+    <Image Include="Resource\graphic\select.png" />
+    <Image Include="Resource\graphic\stageSelect.png" />
+    <Image Include="Resource\graphic\star.png" />
+    <Image Include="Resource\graphic\title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\Change.h" />
+    <ClInclude Include="Header\Claws.h" />
+    <ClInclude Include="Header\Coin.h" />
+    <ClInclude Include="Header\Draw.h" />
+    <ClInclude Include="Header\Food.h" />
+    <ClInclude Include="Header\Goal.h" />
+    <ClInclude Include="Header\Ice.h" />
+    <ClInclude Include="Header\Initial.h" />
+    <ClInclude Include="Header\Input.h" />
+    <ClInclude Include="Header\Key.h" />
+    <ClInclude Include="Header\Load.h" />
+    <ClInclude Include="Header\Magma.h" />
+    <ClInclude Include="Header\Player.h" />
+    <ClInclude Include="Header\Scene.h" />
+    <ClInclude Include="Header\Select.h" />
+    <ClInclude Include="Header\Shake.h" />
+    <ClInclude Include="Header\Slime.h" />
+    <ClInclude Include="Header\Stage.h" />
+    <ClInclude Include="Header\Wing.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\sound\bgm.mp3" />
+    <Media Include="Resource\sound\chain.mp3" />
+    <Media Include="Resource\sound\coin.mp3" />
+    <Media Include="Resource\sound\decision.mp3" />
+    <Media Include="Resource\sound\food.mp3" />
+    <Media Include="Resource\sound\goal.mp3" />
+    <Media Include="Resource\sound\key.mp3" />
+    <Media Include="Resource\sound\select.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tail_Run.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

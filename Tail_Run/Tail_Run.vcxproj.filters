@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;cur;dlg;rc2;rct;bin;rgs;resx;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル\ステージ">
+      <UniqueIdentifier>{57574007-fd04-46ce-a9fa-a83b8c9a6b39}</UniqueIdentifier>
+      <Extensions>csv;</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック">
+      <UniqueIdentifier>{111ba85e-96f1-4d38-a583-ae4b3dfb6e7e}</UniqueIdentifier>
+      <Extensions>bmp;gif;jpg;jpeg;jpe;tiff;tif;png;</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック\アイコン">
+      <UniqueIdentifier>{5bc65ec1-8bd1-44c0-8d08-db12f863a264}</UniqueIdentifier>
+      <Extensions>ico;</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック\ステージ">
+      <UniqueIdentifier>{07f8b5dc-5e30-435e-9efd-ee88919fc441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック\ゲームオーバー">
+      <UniqueIdentifier>{078d4575-aa0c-488c-8313-20a99dfda958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック\背景">
+      <UniqueIdentifier>{3a482940-91a0-4335-a938-ce3621961cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック\セレクト">
+      <UniqueIdentifier>{85c96884-9676-4f37-bddf-1e6e3768b408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック\プレイヤー">
+      <UniqueIdentifier>{4fd57173-ad7b-4695-9884-470cf9c05861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\サウンド">
+      <UniqueIdentifier>{8d094b84-1ae4-4bea-8920-aabe99e2ee1b}</UniqueIdentifier>
+      <Extensions>wav;mp3;ogg;MIDI;m4a;</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Change.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Claws.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Coin.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Draw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Food.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Goal.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ice.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Initial.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Key.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Load.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Magma.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Select.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shake.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Slime.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Wing.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\stage\stage1.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage11.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage12.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage13.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage14.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage15.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage16.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage17.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage20.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\title.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage2.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage3.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage10.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage18.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage19.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage4.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage5.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage6.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage7.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage8.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+    <None Include="Resource\stage\stage9.csv">
+      <Filter>リソース ファイル\ステージ</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\graphic\A_button.png">
+      <Filter>リソース ファイル\グラフィック</Filter>
+    </Image>
+    <Image Include="Resource\graphic\clear.png">
+      <Filter>リソース ファイル\グラフィック</Filter>
+    </Image>
+    <Image Include="Resource\graphic\hungry.png">
+      <Filter>リソース ファイル\グラフィック</Filter>
+    </Image>
+    <Image Include="Resource\graphic\title.png">
+      <Filter>リソース ファイル\グラフィック</Filter>
+    </Image>
+    <Image Include="Resource\graphic\apple.png">
+      <Filter>リソース ファイル\グラフィック\ステージ</Filter>
+    </Image>
+    <Image Include="Resource\graphic\block_sample.png">
+      <Filter>リソース ファイル\グラフィック\ステージ</Filter>
+    </Image>
+    <Image Include="Resource\graphic\coin.png">
+      <Filter>リソース ファイル\グラフィック\ステージ</Filter>
+    </Image>
+    <Image Include="Resource\graphic\door.png">
+      <Filter>リソース ファイル\グラフィック\ステージ</Filter>
+    </Image>
+    <Image Include="Resource\graphic\forestBlock.png">
+      <Filter>リソース ファイル\グラフィック\ステージ</Filter>
+    </Image>
+    <Image Include="Resource\graphic\Key.png">
+      <Filter>リソース ファイル\グラフィック\ステージ</Filter>
+    </Image>
+    <Image Include="Resource\graphic\Pile.png">
+      <Filter>リソース ファイル\グラフィック\ステージ</Filter>
+    </Image>
+    <Image Include="Resource\graphic\gameover.png">
+      <Filter>リソース ファイル\グラフィック\ゲームオーバー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\gameoverSelect.png">
+      <Filter>リソース ファイル\グラフィック\ゲームオーバー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\cloud1.png">
+      <Filter>リソース ファイル\グラフィック\背景</Filter>
+    </Image>
+    <Image Include="Resource\graphic\cloud2.png">
+      <Filter>リソース ファイル\グラフィック\背景</Filter>
+    </Image>
+    <Image Include="Resource\graphic\forest.png">
+      <Filter>リソース ファイル\グラフィック\背景</Filter>
+    </Image>
+    <Image Include="Resource\graphic\mountain.png">
+      <Filter>リソース ファイル\グラフィック\背景</Filter>
+    </Image>
+    <Image Include="Resource\graphic\select.png">
+      <Filter>リソース ファイル\グラフィック\セレクト</Filter>
+    </Image>
+    <Image Include="Resource\graphic\stageSelect.png">
+      <Filter>リソース ファイル\グラフィック\セレクト</Filter>
+    </Image>
+    <Image Include="Resource\graphic\star.png">
+      <Filter>リソース ファイル\グラフィック\セレクト</Filter>
+    </Image>
+    <Image Include="Resource\graphic\player\hookShot.png">
+      <Filter>リソース ファイル\グラフィック\プレイヤー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\player\player_hungry.png">
+      <Filter>リソース ファイル\グラフィック\プレイヤー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\player\player_idle.png">
+      <Filter>リソース ファイル\グラフィック\プレイヤー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\player\player_run.png">
+      <Filter>リソース ファイル\グラフィック\プレイヤー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\player\wing.png">
+      <Filter>リソース ファイル\グラフィック\プレイヤー</Filter>
+    </Image>
+    <Image Include="..\icon.ico">
+      <Filter>リソース ファイル\グラフィック\アイコン</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\Change.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Claws.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Coin.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Draw.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Food.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Goal.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Ice.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Initial.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Input.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Key.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Load.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Magma.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Select.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Shake.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Slime.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stage.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Wing.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\sound\chain.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+    <Media Include="Resource\sound\coin.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+    <Media Include="Resource\sound\decision.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+    <Media Include="Resource\sound\food.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+    <Media Include="Resource\sound\goal.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+    <Media Include="Resource\sound\key.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+    <Media Include="Resource\sound\select.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+    <Media Include="Resource\sound\bgm.mp3">
+      <Filter>リソース ファイル\サウンド</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tail_Run.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
