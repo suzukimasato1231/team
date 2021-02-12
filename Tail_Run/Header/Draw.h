@@ -19,7 +19,7 @@ void GameClearDraw(const char strNum[], const int clearAnimation, const struct G
 void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20][30], const struct Graphic &graphic, const int &animationCount, const int &shakeX = 0, const int &shakeY = 0);
 
 //ƒvƒŒƒCƒ„[‚Ì•`‰æ
-void PlayerDraw(const int &x, const int &y, const int &width, const int &height, const struct Graphic &graphic, const bool &turn, const int &animationCount, const bool input[]);
+void PlayerDraw(const int &x, const int &y, const struct Graphic &graphic, const bool &turn, const int &animationCount, const bool input[]);
 
 //‹Q€‚Ì•`‰æ
 void StarvationDrow(const int &x, const int &y, const int &width, const int &height, const Graphic &graphic, const bool &turn, const int &animationCount);

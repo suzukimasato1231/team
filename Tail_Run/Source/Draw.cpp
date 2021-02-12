@@ -123,29 +123,15 @@ void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int
 	}
 }
 
-void PlayerDraw(const int &x, const int &y, const int &width, const int &height, const Graphic &graphic, const bool &turn, const int &animationCount, const bool input[])
+void PlayerDraw(const int &x, const int &y, const Graphic &graphic, const bool &turn, const int &animationCount, const bool input[])
 {
 	if (input[4] == FALSE && (input[2] == TRUE || input[3] == TRUE))
 	{
-		if (turn == TRUE)
-		{
-			DrawTurnGraph(x - width, y - height, graphic.player.run[animationCount], TRUE);
-		}
-		else
-		{
-			DrawGraph(x - width, y - height, graphic.player.run[animationCount], TRUE);
-		}
+		DrawRotaGraph(x, y, 1, 0, graphic.player.run[animationCount], TRUE, turn);
 	}
 	else
 	{
-		if (turn == TRUE)
-		{
-			DrawTurnGraph(x - width, y - height, graphic.player.idle[animationCount], TRUE);
-		}
-		else
-		{
-			DrawGraph(x - width, y - height, graphic.player.idle[animationCount], TRUE);
-		}
+		DrawRotaGraph(x, y, 1, 0, graphic.player.idle[animationCount], TRUE, turn);
 	}
 }
 

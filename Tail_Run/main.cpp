@@ -744,7 +744,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 
 			//ÉvÉåÉCÉÑÅ[ÇÃï`âÊ
-			PlayerDraw(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, playerAnimation, input);
+			PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 
 			break;
 		case Main:
@@ -785,7 +785,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 			else
 			{
-				PlayerDraw(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, playerAnimation, input);
+				PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 			}
 
 			break;
