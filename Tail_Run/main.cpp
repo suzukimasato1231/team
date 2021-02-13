@@ -402,6 +402,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+				AnimationInit(&animation, &playerAnimation, &wingAnimation,
+					&hungryAnimation, &coinAnimation, &clearAnimation);
 
 				if (scene != Title)
 				{
@@ -631,6 +633,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+				AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
 			}
 			
 			//ゴール確認用
@@ -697,6 +700,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
 				}
 				else
 				{
@@ -704,6 +708,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
 
 					scene = Main;
 				}
