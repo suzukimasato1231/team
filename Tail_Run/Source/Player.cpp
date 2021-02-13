@@ -51,157 +51,56 @@ void PlayerCollision(int *x, int *y, int width, int heigth, int *memoryX, int *m
 	{
 		return;
 	}
-	int hokan = 0;
+
+	int centerMapNumX = *x / blockSize;
+	int centerMapNumY = *y / blockSize;
 
 	//左下のオブジェクトの当たり判定
-	if (input[2] == TRUE && (map[*downMapnumY][*leftMapnumX] == StageGround ||
-		map[*upMapnumY][*leftMapnumX] == StageGround || map[*downMapnumY][*rightMapnumX] == StageGround))
+	if (map[*downMapnumY][*leftMapnumX] == StageGround)
 	{
-		//Yの重なっているところを戻す
-		hokan = *y;
-		*y = max(*y, *memoryY);
-		*y /= blockSize;
-		*y *= blockSize;
-		*y += blockSize - heigth;
-		//マップチップの何番目か
-		//左下
-		*leftMapnumX = (*x - width) / blockSize;
-		*downMapnumY = (*y + heigth - 1) / blockSize;
-		//それでも重なっている場合はYをもとの位置に戻しXを戻す
-		if (map[*downMapnumY][*leftMapnumX] == StageGround || map[*upMapnumY][*leftMapnumX] == StageGround)
+		//プレイヤーの左側か下に壁があるかどうか
+		if (map[*upMapnumY][*leftMapnumX] != StageGround && map[*downMapnumY][*rightMapnumX] != StageGround)
 		{
-			*y = hokan;
-			*x = max(*x, *memoryX);
-			*x /= blockSize;
-			*x *= blockSize;
-			*x += width;
-			//左下
-			*leftMapnumX = (*x - width) / blockSize;
-			*downMapnumY = (*y + heigth - 1) / blockSize;
-			//それでも重なっている場合はYを戻し、Xを戻したままにする
-			if (map[*downMapnumY][*leftMapnumX] == StageGround)
-			{
-				*y = max(*y, *memoryY);
-				*y /= blockSize;
-				*y *= blockSize;
-				*y += blockSize - heigth;
-			}
+			//*x += 1;
+			*y -= 1;
 		}
 	}
 
 	//左上のオブジェクトの当たり判定
-	if (input[2] == TRUE && input[4] == TRUE && (map[*downMapnumY][*leftMapnumX] == StageGround ||
-		map[*upMapnumY][*leftMapnumX] == StageGround || map[*upMapnumY][*rightMapnumX] == StageGround))
+	if (map[*upMapnumY][*leftMapnumX] == StageGround)
 	{
-		//Yの重なっているところを戻す
-		hokan = *y;
-		*y = max(*y, *memoryY);
-		*y /= blockSize;
-		*y *= blockSize;
-		*y += heigth;
-		//マップチップの何番目か
-			//左上
-		*leftMapnumX = (*x - width) / blockSize;
-		*upMapnumY = (*y - heigth) / blockSize;
-		//それでも重なっている場合はYをもとの位置に戻しXを戻す
-		if (map[*upMapnumY][*leftMapnumX] == StageGround || map[*downMapnumY][*leftMapnumX] == StageGround)
+		//プレイヤーの左側か上に壁があるかどうか
+		if (map[*downMapnumY][*leftMapnumX] != StageGround && map[*upMapnumY][*rightMapnumX] != StageGround)
 		{
-			*y = hokan;
-			*x = max(*x, *memoryX);
-			*x /= blockSize;
-			*x *= blockSize;
-			*x += width;
-			//マップチップの何番目か
-			//左上
-			*leftMapnumX = (*x - width) / blockSize;
-			*upMapnumY = (*y - heigth) / blockSize;
-			//それでも重なっている場合はYを戻し、Xを戻したままにする
-			if (map[*upMapnumY][*leftMapnumX] == StageGround)
-			{
-				*y = max(*y, *memoryY);
-				*y /= blockSize;
-				*y *= blockSize;
-				*y += heigth;
-			}
+			//*x += 1;
+			*y += 1;
 		}
 	}
 
 	//右下のオブジェクトの当たり判定
-	if (input[3] == TRUE && (map[*downMapnumY][*leftMapnumX] == StageGround ||
-		map[*upMapnumY][*rightMapnumX] == StageGround || map[*downMapnumY][*rightMapnumX] == StageGround))
+	if (map[*downMapnumY][*rightMapnumX] == StageGround)
 	{
-		//Yの重なっているところを戻す
-		hokan = *y;
-		*y = max(*y, *memoryY);
-		*y /= blockSize;
-		*y *= blockSize;
-		*y += blockSize - heigth;
-		//マップチップの何番目か
-		//右下
-		*rightMapnumX = (*x + width - 1) / blockSize;
-		*downMapnumY = (*y + heigth - 1) / blockSize;
-		//それでも重なっている場合はYをもとの位置に戻しXを戻す
-		if (map[*downMapnumY][*rightMapnumX] == StageGround || map[*upMapnumY][*rightMapnumX] == StageGround)
+		//プレイヤーの右側か下に壁があるかどうか
+		if (map[*upMapnumY][*rightMapnumX] != StageGround && map[*downMapnumY][*leftMapnumX] != StageGround)
 		{
-			*y = hokan;
-			*x = max(*x, *memoryX);
-			*x /= blockSize;
-			*x *= blockSize;
-			*x += blockSize - width;
-			//マップチップの何番目か
-			//右下
-			*rightMapnumX = (*x + width - 1) / blockSize;
-			*downMapnumY = (*y + heigth - 1) / blockSize;
-			//それでも重なっている場合はYを戻し、Xを戻したままにする
-			if (map[*downMapnumY][*rightMapnumX] == StageGround)
-			{
-				*y = max(*y, *memoryY);
-				*y /= blockSize;
-				*y *= blockSize;
-				*y += blockSize - heigth;
-			}
+			//*x -= 1;
+			*y -= 1;
 		}
 	}
 
 	//右上のオブジェクトの当たり判定
-	if (input[3] == TRUE && input[4] == TRUE && (map[*upMapnumY][*leftMapnumX] == StageGround ||
-		map[*upMapnumY][*rightMapnumX] == StageGround || map[*downMapnumY][*rightMapnumX] == StageGround))
+	if (map[*upMapnumY][*rightMapnumX] == StageGround)
 	{
-		//Yの重なっているところを戻す
-		hokan = *y;
-		*y = max(*y, *memoryY);
-		*y /= blockSize;
-		*y *= blockSize;
-		*y += heigth;
-		//マップチップの何番目か
-		//右上
-		*rightMapnumX = (*x + width - 1) / blockSize;
-		*upMapnumY = (*y - heigth) / blockSize;
-		//それでも重なっている場合はYをもとの位置に戻しXを戻す
-		if (map[*upMapnumY][*rightMapnumX] == StageGround || map[*downMapnumY][*rightMapnumX] == StageGround)
+		//プレイヤーの右側か上に壁があるかどうか
+		if (map[*downMapnumY][*rightMapnumX] != StageGround && map[*upMapnumY][*leftMapnumX] != StageGround)
 		{
-			*y = hokan;
-			*x = max(*x, *memoryX);
-			*x /= blockSize;
-			*x *= blockSize;
-			*x += blockSize - width;
-			//マップチップの何番目か
-			//右上
-			*rightMapnumX = (*x + width - 1) / blockSize;
-			*upMapnumY = (*y - heigth) / blockSize;
-			//それでも重なっている場合はYを戻し、Xを戻したままにする
-			if (map[*upMapnumY][*rightMapnumX] == StageGround)
-			{
-				*y = max(*y, *memoryY);
-				*y /= blockSize;
-				*y *= blockSize;
-				*y += heigth;
-			}
+			//*x -= 1;
+			*y += 1;
 		}
 	}
 
 	//左方向
-	if (*x != *memoryX && (map[*upMapnumY][*leftMapnumX] == StageGround || map[*downMapnumY][*leftMapnumX] == StageGround))
+	if (map[centerMapNumY][*leftMapnumX] == StageGround)
 	{
 		*x = max(*x, *memoryX);
 		*x /= blockSize;
@@ -209,8 +108,8 @@ void PlayerCollision(int *x, int *y, int width, int heigth, int *memoryX, int *m
 		*x += width;
 	}
 
-	//右方向壁当たり判定
-	if (*x != *memoryX && (map[*upMapnumY][*rightMapnumX] == StageGround || map[*downMapnumY][*rightMapnumX] == StageGround))
+	//右方向
+	if (map[centerMapNumY][*rightMapnumX] == StageGround)
 	{
 		*x = max(*x, *memoryX);
 		*x /= blockSize;
@@ -219,7 +118,7 @@ void PlayerCollision(int *x, int *y, int width, int heigth, int *memoryX, int *m
 	}
 
 	//移動下
-	if (*y != *memoryY && (map[*downMapnumY][*leftMapnumX] == StageGround || map[*downMapnumY][*rightMapnumX] == StageGround))
+	if (map[*downMapnumY][centerMapNumX] == StageGround)
 	{
 		*y = max(*y, *memoryY);
 		*y /= blockSize;
@@ -228,7 +127,7 @@ void PlayerCollision(int *x, int *y, int width, int heigth, int *memoryX, int *m
 	}
 
 	//移動上
-	if (*y != *memoryY && (map[*upMapnumY][*leftMapnumX] == StageGround || map[*upMapnumY][*rightMapnumX] == StageGround))
+	if (map[*upMapnumY][centerMapNumX] == StageGround)
 	{
 		*y = max(*y, *memoryY);
 		*y /= blockSize;
