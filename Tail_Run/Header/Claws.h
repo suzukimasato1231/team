@@ -1,5 +1,13 @@
 #pragma once
 
+enum ClawStatus
+{
+	Normal,
+	Launching,
+	PlayerMove,
+	Cancel,
+};
+
 //‚©‚¬’Ü
 void Claws(int *clawX, const int &clawWidth, int *chainCount, int *playerX, const int &playerWidth, const bool &playerTurn, const int &flag);
 
