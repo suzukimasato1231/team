@@ -6,7 +6,7 @@
 void BGDraw(const Graphic &graphic, const int &stageNo, const int &shakeX, const int &shakeY)
 {
 	int i = 0;
-	if(stageNo == 20)
+	if (stageNo == 20)
 	{
 		i = 1;
 	}
@@ -146,6 +146,14 @@ void StarvationDrow(const int &x, const int &y, const int &width, const int &hei
 		DrawGraph(x - width, y - height, graphic.player.hungry[animationCount], TRUE);
 	}
 }
+//ÉÅÉjÉÖÅ[
+void MenuDraw(const int &menuY, const struct Graphic &graphic)
+{
+	int space = 160;
+	DrawGraph(0, 0, graphic.menu, TRUE);
+	DrawGraph(0, menuY * space-96, graphic.gameoverselect, TRUE);
+	DrawGraph(280, 570, graphic.menuButton, TRUE);
+}
 
 void ClawDraw(const int &x, const int &y, const int &width, const int &height, const Graphic &graphic, const bool &playerTurn, const int &count)
 {
@@ -197,6 +205,9 @@ void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
 	DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
 	DrawGraph(0, 0, graphic.hungry, TRUE);
+	//
+	DrawGraph(0, 55, graphic.menuButton, TRUE);
+	DrawGraph(32, 55, graphic.menuLetters, TRUE);
 }
 
 void DebugDraw(const int &blockSize, const int &winW, const int &winH, const int &mapW, const int &mapH, const int &playerX, const int &playerY, const int &playerW, const int &playerH)

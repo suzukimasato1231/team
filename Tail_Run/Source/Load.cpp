@@ -12,6 +12,8 @@ void LoadGraphic(Graphic &graphic)
 	graphic.title = LoadGraph("./Resource/graphic/title.png");
 	LoadDivGraph("./Resource/graphic/star.png", 2, 2, 1, 32, 32, graphic.star);
 	graphic.aButton = LoadGraph("./Resource/graphic/A_button.png");
+	//
+	graphic.menuButton = LoadGraph("./Resource/graphic/Menu_button.png");
 	LoadDivGraph("./Resource/graphic/player/player_idle.png", 2, 2, 1, 32, 28, graphic.player.idle);
 	LoadDivGraph("./Resource/graphic/player/player_run.png", 4, 4, 1, 32, 28, graphic.player.run);
 	LoadDivGraph("./Resource/graphic/player/player_hungry.png", 3, 3, 1, 32, 28, graphic.player.hungry);
@@ -30,6 +32,9 @@ void LoadGraphic(Graphic &graphic)
 
 	graphic.gameover = LoadGraph("./Resource/graphic/gameover.png");
 	graphic.gameoverselect = LoadGraph("./Resource/graphic/gameoverSelect.png");
+	//
+	graphic.menu = LoadGraph("./Resource/graphic/menu.png");
+	graphic.menuLetters = LoadGraph("./Resource/graphic/Menu_Letters.png");
 	graphic.hungry = LoadGraph("./Resource/graphic/hungry.png");
 
 	LoadDivGraph("./Resource/graphic/clear.png", 6, 6, 1, 960, 640, graphic.clear);

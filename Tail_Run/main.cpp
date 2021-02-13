@@ -171,6 +171,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int gameoverSelectY = 0;
 	int stageSelectX = 0, stageSelectY = 0;
 
+	int MenuSelectY = 0;
+
 	int star[20] = { 0 };
 
 	int shakeX = 0, shakeY = 0; //シェイク値
@@ -416,6 +418,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 			break;
+
 		case Main:
 			memoryX = playerX;
 			memoryY = playerY;
@@ -621,18 +624,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//リトライ
 			if (input[InputMenu] == 1 && oldInput[InputMenu] == 0)
 			{
-				for (int i = 0; i < 20; i++)
-				{
-					for (int j = 0; j < 30; j++)
-					{
-						mapChip[stageNo][i][j] = oldMapChip[i][j];
-					}
-				}
-				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
-					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
-					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+				scene = Menu;
 			}
-			
+
 			//ゴール確認用
 			if (clearFlag == 1 || perfectFlag == 1)
 			{
@@ -652,6 +646,44 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				StopSoundMem(sound.shot);
 			}
 
+			break;
+		case Menu:
+			MenuSelect(&scene, &MenuSelectY, input, oldInput, inputCount, sound);
+			if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
+			{
+				switch (MenuSelectY)
+				{
+				case 0:
+					for (int i = 0; i < 20; i++)
+					{
+						for (int j = 0; j < 30; j++)
+						{
+							mapChip[stageNo][i][j] = oldMapChip[i][j];
+						}
+					}
+					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
+						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
+						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					scene = Main;
+					break;
+				case 1:
+					scene = Title;
+					stageNo = 0;
+					//初期化フラグ
+					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
+						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
+						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					break;
+				case 2:
+					//サウンド
+					break;
+				}
+			}
+			//メニューボタンで戻る
+			if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
+			{
+				scene = Main;
+			}
 			break;
 		case GameOver:
 
@@ -762,6 +794,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 
 			break;
+
 		case Main:
 			//背景の描画
 			BGDraw(graph, stageNo);
@@ -802,7 +835,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 			}
-
+			if (scene != Menu)break;
+		case Menu:
+			//メニュー画面
+			MenuDraw(MenuSelectY, graph);
 			break;
 		case StageSelection:
 			//セレクト画面

@@ -9,6 +9,9 @@ void TitleDraw(const struct Graphic &graphic);
 //ステージ選択の描画
 void SelectDraw(const int &blockSize, const int &stageSelectX, const int &stageSelectY, const int star[], const struct Graphic &graphic);
 
+//メニュー選択の描画
+void MenuDraw(const int &menuY,const struct Graphic &graphic);
+
 //ゲームオーバーの描画
 void GameOverDraw(const int &blockSize, const int &gameoverSelectY, const struct Graphic &graphic);
 

@@ -14,6 +14,8 @@ typedef struct Graphic
 	int background[2] = { 0 }, cloud[2] = { 0 }, block[2] = { 0 };
 	int title = 0, star[2] = { 0 };
 	int aButton = 0;
+	//
+	int menuButton = 0;
 	int goal = 0, key = 0;
 	int food = 0;
 	int coin[8] = { 0 };
@@ -23,7 +25,9 @@ typedef struct Graphic
 	int stage = 0, stageselect = 0;
 	int gameover = 0, gameoverselect = 0;
 	int clear[6] = { 0 }, number[11] = { 0 };
-
+	//
+	int menu = 0;
+	int menuLetters = 0;
 	struct Player player;
 }Graphic;
 

@@ -176,3 +176,45 @@ void Select(int *stageSelectX, int *stageSelectY, int *scene, int *stageNo, bool
 		}
 	}
 }
+
+void MenuSelect(int *scene, int *menuSelectY, bool input[], bool oldInput[], int inputCount[], struct Sound sound)
+{
+	bool move = FALSE;
+	if (nullptr != menuSelectY && nullptr != scene)
+	{
+		//上
+		if (inputCount[InputUp] % 10 == 1)
+		{
+			move = TRUE;
+			*menuSelectY -= 1;
+		}
+		//下
+		if (inputCount[InputDown] % 10 == 1)
+		{
+			move = TRUE;
+			*menuSelectY += 1;
+		}
+
+		if (move == TRUE)
+		{
+			//セレクトのSE再生
+			PlaySoundMem(sound.select, DX_PLAYTYPE_BACKBIT);
+		}
+
+		//決定
+		if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
+		{
+			//決定のSE再生
+			PlaySoundMem(sound.decision, DX_PLAYTYPE_BACKBIT);
+		}
+
+		if (*menuSelectY > 2)
+		{
+			*menuSelectY = 0;
+		}
+		//マイナスにしない
+		if (*menuSelectY < 0) {
+			*menuSelectY = 2;
+		}
+	}
+}
