@@ -103,14 +103,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//キー入力とXboxコントローラーの入力の合成情報
 	//0～3：上下左右, 4：アクションコマンド
-	bool input[5] = { 0 };
+	bool input[6] = { 0 };
 
 	//1フレーム前のinputの情報
-	bool oldInput[5] = { 0 };
+	bool oldInput[6] = { 0 };
 
 	//
 	//入力時間計測用(ちょい押しに対応させるため)
-	int inputCount[5] = { 0 };
+	int inputCount[6] = { 0 };
 	//
 
 	//ゲーム終了フラグ
@@ -126,7 +126,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//数字桁数上限
 	const int length = 8;
-	char strNum[length];
+	char strNum[length]{};
 	int number;
 
 	//ステージ番号
@@ -205,7 +205,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		GetJoypadXInputState(DX_INPUT_PAD1, &pad);
 
 		//最新の入力情報だったものは1フレーム前の入力情報として保存
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			oldInput[i] = input[i];
 		}
@@ -247,7 +247,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
-			if (input[4] == TRUE)
+			if (input[InputAction] == TRUE)
 			{
 				if (coinAnimation % 2 == 0)
 				{
@@ -257,7 +257,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 			else
 			{
-				if (input[2] == TRUE || input[3] == TRUE)
+				if (input[InputLeft] == TRUE || input[InputRight] == TRUE)
 				{
 					playerAnimation++;
 					playerAnimation %= 4;
@@ -306,7 +306,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//かぎ爪
 			if (clawFlag == 0)
 			{
-				if (input[4] == TRUE && oldInput[4] == FALSE)
+				if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 				{
 					clawFlag = 1;
 					if (playerTurn == 0)
@@ -339,7 +339,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					{
 						clawFlag = 3;
 					}
-					if (input[4] == TRUE && oldInput[4] == FALSE)
+					if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 					{
 						clawFlag = 3;
 					}
@@ -396,7 +396,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		case StageSelection:
 			Select(&stageSelectX, &stageSelectY, &scene, &stageNo, input, oldInput, inputCount, sound);
 			//決定
-			if (input[4] == TRUE && oldInput[4] == FALSE)
+			if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 			{
 				//初期化フラグ
 				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
@@ -424,7 +424,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			if (clawFlag == 0)
 			{
-				if (input[4] == FALSE)
+				if (input[InputAction] == FALSE)
 				{
 					Player(&playerX, &playerY, &playerTurn, input, mapChip[stageNo], blockSize);
 				}
@@ -455,7 +455,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				if (clawFlag == 0)
 				{
 					Gravity(&playerY);
-					if (input[4] == TRUE && oldInput[4] == FALSE)
+					if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 					{
 						clawFlag = 1;
 						if (playerTurn == 0)
@@ -488,7 +488,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						{
 							clawFlag = 3;
 						}
-						if (input[4] == TRUE && oldInput[4] == FALSE)
+						if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 						{
 							clawFlag = 3;
 						}
@@ -618,6 +618,21 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
+			//リトライ
+			if (input[InputMenu] == 1 && oldInput[InputMenu] == 0)
+			{
+				for (int i = 0; i < 20; i++)
+				{
+					for (int j = 0; j < 30; j++)
+					{
+						mapChip[stageNo][i][j] = oldMapChip[i][j];
+					}
+				}
+				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
+					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
+					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+			}
+			
 			//ゴール確認用
 			if (clearFlag == 1 || perfectFlag == 1)
 			{
@@ -641,12 +656,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		case GameOver:
 
 			//上
-			if (inputCount[0] % 20 == 1)
+			if (inputCount[InputUp] % 20 == 1)
 			{
 				gameoverSelectY -= 1;
 			}
 			//下
-			if (inputCount[1] % 20 == 1)
+			if (inputCount[InputDown] % 20 == 1)
 			{
 				gameoverSelectY += 1;
 			}
@@ -660,7 +675,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				gameoverSelectY = 0;
 			}
 			//決定
-			if (input[4] == 1 && oldInput[4] == 0)
+			if (input[InputAction] == 1 && oldInput[InputAction] == 0)
 			{
 				for (int i = 0; i < 20; i++)
 				{
@@ -696,7 +711,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 
 		case GameClear:
-			if (input[4] == 1 && oldInput[4] == 0)
+			if (input[InputAction] == 1 && oldInput[InputAction] == 0)
 			{
 				scene = StageSelection;
 
