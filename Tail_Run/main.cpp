@@ -159,7 +159,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int clawX = -100, clawY = -100; //かぎ爪のヘッドの座標
 	const int clawWidth = 8, clawHeight = 8; //かぎ爪の大きさ(半分)
 	int chainCount = 0; //出てる鎖の数
-	int clawFlag = 0; //1で発射中、2でプレイヤーの移動、3ではね返し
+	int clawFlag = Normal; //1で発射中、2でプレイヤーの移動、3ではね返し
 
 	int coinNum = 0; //コイン
 	int perfectFlag = 0, clearFlag = 0; //ゴールフラグ
@@ -286,7 +286,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			memoryX = playerX;
 			memoryY = playerY;
 
-			if (clawFlag == 0)
+			if (clawFlag == Normal)
 			{
 				Player(&playerX, &playerY, &playerTurn, input, mapChip[Title], blockSize);
 				Gravity(&playerY);
@@ -304,11 +304,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			downMapnumY = (playerY + playerHeight - 1) / blockSize;
 
 			//かぎ爪
-			if (clawFlag == 0)
+			if (clawFlag == Normal)
 			{
 				if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 				{
-					clawFlag = 1;
+					clawFlag = Launching;
 					if (playerTurn == 0)
 					{
 						clawX = playerX;
@@ -329,36 +329,36 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				Claws(&clawX, clawWidth, &chainCount, &playerX, playerWidth, playerTurn, clawFlag);
 				switch (clawFlag)
 				{
-				case 1:
+				case Launching:
 					//発射中
 					if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[Title]) == 1)
 					{
-						clawFlag = 2;
+						clawFlag = PlayerMove;
 					}
 					if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[Title]) == 2)
 					{
-						clawFlag = 3;
+						clawFlag = Cancel;
 					}
 					if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 					{
-						clawFlag = 3;
+						clawFlag = Cancel;
 					}
 					break;
-				case 2:
+				case PlayerMove:
 					//プレイヤーの移動中
-					if (PileHit(playerX, playerY, playerWidth, playerHeight, blockSize, mapChip[Title]) == 1)
+					if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 					{
-						clawFlag = 0;
+						clawFlag = Normal;
 						clawX = -100;
 						clawY = -100;
 						chainCount = 0;
 					}
 					break;
-				case 3:
+				case Cancel:
 					//かぎ爪のはね返し
 					if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 					{
-						clawFlag = 0;
+						clawFlag = Normal;
 						clawX = -100;
 						clawY = -100;
 						chainCount = 0;
@@ -378,7 +378,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//プレイヤーの当たり判定・戻し処理
 			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY, &leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[Title], blockSize);
 
-			if (clawFlag == 0)
+			if (clawFlag == Normal)
 			{
 				if (playerX <= blockSize * 8)
 				{
@@ -422,7 +422,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			Change(&itemFlag, stageNo);
 
-			if (clawFlag == 0)
+			if (clawFlag == Normal)
 			{
 				if (input[InputAction] == FALSE)
 				{
@@ -452,12 +452,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			else
 			{
 				//かぎ爪
-				if (clawFlag == 0)
+				if (clawFlag == Normal)
 				{
 					Gravity(&playerY);
 					if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 					{
-						clawFlag = 1;
+						clawFlag = Launching;
 						if (playerTurn == 0)
 						{
 							clawX = playerX;
@@ -482,22 +482,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						//発射中
 						if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[stageNo]) == 1)
 						{
-							clawFlag = 2;
+							clawFlag = PlayerMove;
 						}
 						if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[stageNo]) == 2)
 						{
-							clawFlag = 3;
+							clawFlag = Cancel;
 						}
 						if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 						{
-							clawFlag = 3;
+							clawFlag = Cancel;
 						}
 						break;
 					case 2:
 						//プレイヤーの移動中
-						if (PileHit(playerX, playerY, playerWidth, playerHeight, blockSize, mapChip[stageNo]) == 1)
+						if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 						{
-							clawFlag = 0;
+							clawFlag = Normal;
 							clawX = -100;
 							clawY = -100;
 							chainCount = 0;
@@ -507,7 +507,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						//かぎ爪のはね返し
 						if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 						{
-							clawFlag = 0;
+							clawFlag = Normal;
 							clawX = -100;
 							clawY = -100;
 							chainCount = 0;
@@ -753,13 +753,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			DrawGraph(blockSize * 14, blockSize * 16, graph.aButton, TRUE);
 
 			//かぎ爪の描画
-			if (clawFlag != 0)
+			if (clawFlag != Normal)
 			{
 				ClawDraw(clawX, clawY, clawWidth, clawHeight, graph, playerTurn, chainCount + 1);
 			}
 
 			//プレイヤーの描画
-			PlayerDraw(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, playerAnimation, input);
+			PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 
 			break;
 		case Main:
@@ -787,7 +787,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			else
 			{
 				//かぎ爪の描画
-				if (clawFlag != 0)
+				if (clawFlag != Normal)
 				{
 					ClawDraw(clawX, clawY, clawWidth, clawHeight, graph, playerTurn, chainCount + 1);
 				}
@@ -800,7 +800,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 			else
 			{
-				PlayerDraw(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, playerAnimation, input);
+				PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 			}
 
 			break;
