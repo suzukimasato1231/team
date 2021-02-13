@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include "./../Header/Player.h"
+#include "../Header/Input.h"
 #include "./../Header/Wing.h"
 #include "./../Header/Stage.h"
 
@@ -7,12 +8,12 @@ void Player(int *x, int *y, bool *turn, bool input[], int map[20][30], int block
 {
 	if (x != nullptr && y != nullptr && turn != nullptr)
 	{
-		if (input[2] == TRUE)
+		if (input[InputLeft] == TRUE)
 		{
 			*x -= 2;
 			*turn = 1;
 		}
-		if (input[3] == TRUE)
+		if (input[InputRight] == TRUE)
 		{
 			*x += 2;
 			*turn = 0;

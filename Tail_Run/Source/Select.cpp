@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include "./../Header/Select.h"
+#include "../Header/Input.h"
 #include "./../Header/scene.h"
 #include "./../Header/Load.h"
 
@@ -10,25 +11,25 @@ void Select(int *stageSelectX, int *stageSelectY, int *scene, int *stageNo, bool
 	if (nullptr != stageSelectY && nullptr != stageSelectX && nullptr != scene && nullptr != stageNo)
 	{
 		//è„
-		if (inputCount[0] % 10 == 1)
+		if (inputCount[InputUp] % 10 == 1)
 		{
 			move = TRUE;
 			*stageSelectY -= 1;
 		}
 		//â∫
-		if (inputCount[1] % 10 == 1)
+		if (inputCount[InputDown] % 10 == 1)
 		{
 			move = TRUE;
 			*stageSelectY += 1;
 		}
 		//ç∂
-		if (inputCount[2] % 10 == 1)
+		if (inputCount[InputLeft] % 10 == 1)
 		{
 			move = TRUE;
 			*stageSelectX -= 1;
 		}
 		//âE
-		if (inputCount[3] % 10 == 1)
+		if (inputCount[InputRight] % 10 == 1)
 		{
 			move = TRUE;
 			*stageSelectX += 1;
@@ -41,7 +42,7 @@ void Select(int *stageSelectX, int *stageSelectY, int *scene, int *stageNo, bool
 		}
 
 		//åàíË
-		if (input[4] == TRUE && oldInput[4] == FALSE)
+		if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 		{
 			//åàíËÇÃSEçƒê∂
 			PlaySoundMem(sound.decision, DX_PLAYTYPE_BACKBIT);
