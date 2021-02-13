@@ -2,6 +2,7 @@
 #include "./Header/Load.h"
 #include <ctype.h>
 #include "./Header/Input.h"
+#include "./Header/Stage.h"
 #include "./Header/Scene.h"
 #include "./Header/Player.h"
 #include "./Header/Change.h"
@@ -17,17 +18,17 @@
 #include "./Header/Draw.h"
 
 #define blockSize 32
-#define mapWidth 30
-#define mapHeight 20
+#define mapWidth 30 + 2
+#define mapHeight 20 + 2
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "Tail Run";
 
 // ウィンドウ横幅
-const int WIN_WIDTH = mapWidth * blockSize;
+const int WIN_WIDTH = (mapWidth - 2) * blockSize;
 
 // ウィンドウ縦幅
-const int WIN_HEIGHT = mapHeight * blockSize;
+const int WIN_HEIGHT = (mapHeight - 2) * blockSize;
 
 //アイコンの変更
 int SetWindowIconID(101);
@@ -83,9 +84,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		for (int y = 0; y < mapHeight; y++)
 		{
 			FileRead_gets(string, 256, fileHandle);
-			for (int x = 0, j = 0; x < mapWidth; j++)
+			for (int x = 0, j = 0; string[j] != '\0'; j++)
 			{
-				if (string[j] == '\0' || ispunct(string[j]))
+				if (ispunct(string[j]))
 				{
 					x++;
 				}
@@ -298,10 +299,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 
 			//プレイヤーが移動した後のマップチップの場所
-			leftMapnumX = (playerX - playerWidth) / blockSize;
-			rightMapnumX = (playerX + playerWidth - 1) / blockSize;
-			upMapnumY = (playerY - playerHeight) / blockSize;
-			downMapnumY = (playerY + playerHeight - 1) / blockSize;
+			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
+			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
+			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
+			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
 			//かぎ爪
 			if (clawFlag == Normal)
@@ -376,7 +377,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 
 			//プレイヤーの当たり判定・戻し処理
-			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY, &leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[Title], blockSize);
+			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY,
+				&leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[Title], blockSize);
 
 			if (clawFlag == Normal)
 			{
@@ -384,7 +386,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				{
 					endFlag = TRUE;
 				}
-				if (playerX >= blockSize * (mapWidth - 8))
+				if (playerX >= blockSize * 22)
 				{
 					scene = StageSelection;
 
@@ -408,11 +410,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				if (scene != Title)
 				{
 					//ステージの保存
-					for (int i = 0; i < 20; i++)
+					for (int y = 0; y < mapHeight; y++)
 					{
-						for (int j = 0; j < 30; j++)
+						for (int x = 0; x < mapWidth; x++)
 						{
-							oldMapChip[i][j] = mapChip[stageNo][i][j];
+							oldMapChip[y][x] = mapChip[stageNo][y][x];
 						}
 					}
 				}
@@ -528,19 +530,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 
 			//プレイヤーが移動した後のマップチップの場所
-			leftMapnumX = (playerX - playerWidth) / blockSize;
-			rightMapnumX = (playerX + playerWidth - 1) / blockSize;
-			upMapnumY = (playerY - playerHeight) / blockSize;
-			downMapnumY = (playerY + playerHeight - 1) / blockSize;
+			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
+			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
+			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
+			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
 			//プレイヤーの当たり判定・戻し処理
 			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY, &leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[stageNo], blockSize);
 
-			//プレイヤーの衝突処理後のマップチップの場所
-			leftMapnumX = (playerX - playerWidth) / blockSize;
-			rightMapnumX = (playerX + playerWidth - 1) / blockSize;
-			upMapnumY = (playerY - playerHeight) / blockSize;
-			downMapnumY = (playerY + playerHeight - 1) / blockSize;
+			//プレイヤーが移動した後のマップチップの場所
+			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
+			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
+			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
+			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
 			//コイン
 			Coin(&coinNum, mapChip[stageNo], leftMapnumX, rightMapnumX, upMapnumY, downMapnumY, sound.coin);
@@ -623,11 +625,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//リトライ
 			if (input[InputMenu] == 1 && oldInput[InputMenu] == 0)
 			{
-				for (int i = 0; i < 20; i++)
+				for (int y = 0; y < mapHeight; y++)
 				{
-					for (int j = 0; j < 30; j++)
+					for (int x = 0; x < mapWidth; x++)
 					{
-						mapChip[stageNo][i][j] = oldMapChip[i][j];
+						mapChip[stageNo][y][x] = oldMapChip[y][x];
 					}
 				}
 				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
@@ -680,11 +682,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//決定
 			if (input[InputAction] == 1 && oldInput[InputAction] == 0)
 			{
-				for (int i = 0; i < 20; i++)
+				for (int y = 0; y < mapHeight; y++)
 				{
-					for (int j = 0; j < 30; j++)
+					for (int x = 0; x < mapWidth; x++)
 					{
-						mapChip[stageNo][i][j] = oldMapChip[i][j];
+						mapChip[stageNo][y][x] = oldMapChip[y][x];
 					}
 				}
 
@@ -725,11 +727,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					star[stageNo - 1] = TRUE;
 				}
 
-				for (int i = 0; i < 20; i++)
+				for (int y = 0; y < mapHeight; y++)
 				{
-					for (int j = 0; j < 30; j++)
+					for (int x = 0; x < mapWidth; x++)
 					{
-						mapChip[stageNo][i][j] = oldMapChip[i][j];
+						mapChip[stageNo][y][x] = oldMapChip[y][x];
 					}
 				}
 			}

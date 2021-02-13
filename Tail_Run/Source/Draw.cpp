@@ -76,13 +76,14 @@ void GameClearDraw(const char strNum[], const int clearAnimation, const Graphic 
 	}
 }
 
-void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20][30], const Graphic &graphic, const int &animationCount, const int &shakeX, const int &shakeY)
+void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20 + 2][30 + 2],
+	const Graphic &graphic, const int &animationCount, const int &shakeX, const int &shakeY)
 {
-	for (int y = 0; y < mapH; y++)
+	for (int y = 0; y < mapH - 1; y++)
 	{
-		for (int x = 0; x < mapW; x++)
+		for (int x = 0; x < mapW - 2; x++)
 		{
-			switch (mapChip[y][x])
+			switch (mapChip[y + 1][x + 1])
 			{
 			case StageNone:
 				break;

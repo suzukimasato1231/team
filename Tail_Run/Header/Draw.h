@@ -16,7 +16,8 @@ void GameOverDraw(const int &blockSize, const int &gameoverSelectY, const struct
 void GameClearDraw(const char strNum[], const int clearAnimation, const struct Graphic &graphic);
 
 //ステージの描画
-void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20][30], const struct Graphic &graphic, const int &animationCount, const int &shakeX = 0, const int &shakeY = 0);
+void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20 + 2][30 + 2],
+	const struct Graphic &graphic, const int &animationCount, const int &shakeX = 0, const int &shakeY = 0);
 
 //プレイヤーの描画
 void PlayerDraw(const int &x, const int &y, const struct Graphic &graphic, const bool &turn, const int &animationCount, const bool input[]);
