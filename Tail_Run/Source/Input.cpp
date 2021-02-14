@@ -11,6 +11,7 @@ void Input(const char keys[], const XINPUT_STATE &pad, bool *input)
 	{
 		input[InputUp] = FALSE;
 	}
+
 	if (keys[KEY_INPUT_DOWN] != 0 || pad.Buttons[1] != 0 || pad.ThumbLY < -25500)
 	{
 		input[InputDown] = TRUE;
@@ -19,6 +20,7 @@ void Input(const char keys[], const XINPUT_STATE &pad, bool *input)
 	{
 		input[InputDown] = FALSE;
 	}
+
 	if (keys[KEY_INPUT_LEFT] != 0 || pad.Buttons[2] != 0 || pad.ThumbLX < -25500)
 	{
 		input[InputLeft] = TRUE;
@@ -27,6 +29,7 @@ void Input(const char keys[], const XINPUT_STATE &pad, bool *input)
 	{
 		input[InputLeft] = FALSE;
 	}
+
 	if (keys[KEY_INPUT_RIGHT] != 0 || pad.Buttons[3] != 0 || pad.ThumbLX >= 25500)
 	{
 		input[InputRight] = TRUE;
@@ -35,6 +38,7 @@ void Input(const char keys[], const XINPUT_STATE &pad, bool *input)
 	{
 		input[InputRight] = FALSE;
 	}
+
 	if (keys[KEY_INPUT_Z] != 0 || pad.Buttons[12] != 0)
 	{
 		input[InputAction] = TRUE;
@@ -43,7 +47,8 @@ void Input(const char keys[], const XINPUT_STATE &pad, bool *input)
 	{
 		input[InputAction] = FALSE;
 	}
-	if (keys[KEY_INPUT_R] != 0 || pad.Buttons[4] != 0)
+
+	if (keys[KEY_INPUT_SPACE] != 0 || pad.Buttons[4] != 0)
 	{
 		input[InputMenu] = TRUE;
 	}
