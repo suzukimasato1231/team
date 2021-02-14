@@ -5,3 +5,5 @@ void Select(int *stageSelectX, int *stageSelectY, int *scene, int *stageNo, bool
 
 //ƒƒjƒ…[‘I‘ğ
 void MenuSelect(int *scene, int *menuSelectY, bool input[], bool oldInput[], int inputCount[], struct Sound sound);
+
+void MusicSelect(int *musicSelectY, int *seVolume, int *bgmVolume, bool input[], bool oldInput[], int inputCount[], struct Sound sound);

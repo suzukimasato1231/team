@@ -151,7 +151,19 @@ void MenuDraw(const int &menuY, const struct Graphic &graphic)
 {
 	int space = 160;
 	DrawGraph(0, 0, graphic.menu, TRUE);
-	DrawGraph(0, menuY * space-96, graphic.gameoverselect, TRUE);
+	DrawGraph(0, menuY * space - 96, graphic.gameoverselect, TRUE);
+	DrawGraph(280, 570, graphic.menuButton, TRUE);
+}
+
+void MusicDraw(const int musicSelectY, const int SeVolume, const int BgmVolume, const struct Graphic &graphic)
+{
+	int noteX = 360;
+	int noteSpace = 96;
+	int selectY = 150;
+	DrawGraph(0, 0, graphic.music, TRUE);
+	DrawGraph(0, musicSelectY * 190 + selectY, graphic.musicSelect, TRUE);
+	DrawGraph(noteX + SeVolume * noteSpace, 190, graphic.note, TRUE);
+	DrawGraph(noteX + BgmVolume * noteSpace, 385, graphic.note, TRUE);
 	DrawGraph(280, 570, graphic.menuButton, TRUE);
 }
 
@@ -206,8 +218,8 @@ void HungryDraw(const int hungryTime, const Graphic &graphic)
 	DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
 	DrawGraph(0, 0, graphic.hungry, TRUE);
 	//
-	DrawGraph(0, 55, graphic.menuButton, TRUE);
-	DrawGraph(32, 55, graphic.menuLetters, TRUE);
+	DrawGraph(760, 10, graphic.menuButton, TRUE);
+	DrawGraph(792, 10, graphic.menuLetters, TRUE);
 }
 
 void DebugDraw(const int &blockSize, const int &winW, const int &winH, const int &mapW, const int &mapH, const int &playerX, const int &playerY, const int &playerW, const int &playerH)

@@ -6,6 +6,7 @@ enum Snece
 	StageSelection,
 	Main,
 	Menu,
+	Music,
 	GameOver,
 	GameClear
 };

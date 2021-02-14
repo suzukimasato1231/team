@@ -171,9 +171,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int gameoverSelectY = 0;
 	int stageSelectX = 0, stageSelectY = 0;
 
-	int MenuSelectY = 0;
-
+	int MenuSelectY = 0;//メニュー選択の座標
+	int musicSelectY = 0;//音量選択の座標
 	int star[20] = { 0 };
+
+	int seVolume = 3;//seボリューム
+	int bgmVolume = 3;//bgmボリューム
 
 	int shakeX = 0, shakeY = 0; //シェイク値
 	double shakePower = 50; //シェイクの強さ
@@ -675,10 +678,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
 					break;
 				case 2:
-					//サウンド
+					scene = Music;
 					break;
 				}
 			}
+			//メニューボタンで戻る
+			if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
+			{
+				scene = Main;
+			}
+			break;
+		case Music:
+
+			MusicSelect(&musicSelectY, &seVolume, &bgmVolume, input, oldInput, inputCount, sound);
+			SoundVolumeChange(seVolume, bgmVolume, sound);
 			//メニューボタンで戻る
 			if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
 			{
@@ -839,6 +852,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		case Menu:
 			//メニュー画面
 			MenuDraw(MenuSelectY, graph);
+			break;
+		case Music:
+			MusicDraw(musicSelectY, seVolume, bgmVolume, graph);
 			break;
 		case StageSelection:
 			//セレクト画面
