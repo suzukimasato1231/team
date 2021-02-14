@@ -19,7 +19,7 @@ typedef struct Graphic
 	int goal = 0, key = 0;
 	int food = 0;
 	int coin[8] = { 0 };
-	int pile = 0;
+	int pile[2] = { 0 };
 	int slime = 0, magma = 0, ice = 0;
 	int hungry = 0;
 	int stage = 0, stageselect = 0;

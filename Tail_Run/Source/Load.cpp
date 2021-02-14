@@ -23,7 +23,7 @@ void LoadGraphic(Graphic &graphic)
 	graphic.key = LoadGraph("./Resource/graphic/Key.png");
 	graphic.food = LoadGraph("./Resource/graphic/apple.png");
 	LoadDivGraph("./Resource/graphic/coin.png", 8, 8, 1, 32, 32, graphic.coin);
-	graphic.pile = LoadGraph("./Resource/graphic/Pile.png");
+	LoadDivGraph("./Resource/graphic/Pile.png", 2, 2, 1, 32, 32, graphic.pile);
 	//graphic.slime = LoadGraph("./Resource/graphic/");
 	//graphic.magma = LoadGraph("./Resource/graphic/");
 	//graphic.ice = LoadGraph("./Resource/graphic/");

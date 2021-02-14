@@ -110,7 +110,14 @@ void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int
 				break;
 			case StagePile:
 				//杭の描画
-				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile, TRUE);
+				if (mapChip[y][x + 1] == StagePile)
+				{
+					DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile[1], TRUE);
+				}
+				else
+				{
+					DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile[0], TRUE);
+				}
 				break;
 			case StageSlime:
 				break;
@@ -217,20 +224,15 @@ void WingDraw(const int &x, const int &y, const int &width, const int &height, c
 
 void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
-//<<<<<<< master
 	const int uiPosY = 595;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
 	DrawBox(30, uiPosY + 13, hungryTime / 4 + 30, uiPosY + 45, GetColor(255, 0, 0), TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
 	DrawGraph(0, uiPosY, graphic.hungry, TRUE);
-//=======
-	//DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
-	//DrawGraph(0, 0, graphic.hungry, TRUE);
 	//
 	DrawGraph(760, 10, graphic.menuButton, TRUE);
 	DrawGraph(792, 10, graphic.menuLetters, TRUE);
-//>>>>>>> master
 }
 
 void KeyDraw(const int goalFlag, const int GrHandle)
@@ -238,9 +240,9 @@ void KeyDraw(const int goalFlag, const int GrHandle)
 	if (goalFlag != 0)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
-		DrawCircle(455, 620, 12, GetColor(0x08, 0xF0, 0xF8), true);
+		DrawCircle(455, 625, 12, GetColor(0x08, 0xF0, 0xF8), true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
-		DrawRotaGraph(455, 620, 0.75, atan(1.0) * 2, GrHandle, true);
+		DrawRotaGraph(455, 625, 0.75, atan(1.0) * 2, GrHandle, true);
 	}
 }
 
