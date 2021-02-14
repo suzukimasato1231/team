@@ -44,6 +44,12 @@
       <UniqueIdentifier>{8d094b84-1ae4-4bea-8920-aabe99e2ee1b}</UniqueIdentifier>
       <Extensions>wav;mp3;ogg;MIDI;m4a;</Extensions>
     </Filter>
+    <Filter Include="リソース ファイル\グラフィック\メニュー">
+      <UniqueIdentifier>{e9c74aca-8bd0-42fc-9888-a271951dd186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\グラフィック\ボタン">
+      <UniqueIdentifier>{1e48ac11-a549-448f-b44d-02463e8053a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -167,12 +173,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\graphic\A_button.png">
-      <Filter>リソース ファイル\グラフィック</Filter>
-    </Image>
-    <Image Include="Resource\graphic\clear.png">
-      <Filter>リソース ファイル\グラフィック</Filter>
-    </Image>
     <Image Include="Resource\graphic\hungry.png">
       <Filter>リソース ファイル\グラフィック</Filter>
     </Image>
@@ -244,6 +244,33 @@
     </Image>
     <Image Include="..\icon.ico">
       <Filter>リソース ファイル\グラフィック\アイコン</Filter>
+    </Image>
+    <Image Include="Resource\graphic\menu.png">
+      <Filter>リソース ファイル\グラフィック\メニュー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\music.png">
+      <Filter>リソース ファイル\グラフィック\メニュー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\note.png">
+      <Filter>リソース ファイル\グラフィック\メニュー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\soundSelect.png">
+      <Filter>リソース ファイル\グラフィック\メニュー</Filter>
+    </Image>
+    <Image Include="Resource\graphic\Menu_Letters.png">
+      <Filter>リソース ファイル\グラフィック</Filter>
+    </Image>
+    <Image Include="Resource\graphic\clear.png">
+      <Filter>リソース ファイル\グラフィック</Filter>
+    </Image>
+    <Image Include="Resource\graphic\number.png">
+      <Filter>リソース ファイル\グラフィック</Filter>
+    </Image>
+    <Image Include="Resource\graphic\A_button.png">
+      <Filter>リソース ファイル\グラフィック\ボタン</Filter>
+    </Image>
+    <Image Include="Resource\graphic\Menu_button.png">
+      <Filter>リソース ファイル\グラフィック\ボタン</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

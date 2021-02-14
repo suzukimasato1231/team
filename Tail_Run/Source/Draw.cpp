@@ -2,6 +2,8 @@
 #include "./../Header/Draw.h"
 #include "./../Header/Load.h"
 #include "./../Header/Stage.h"
+#include "./../Header/Input.h"
+#include "./../Header/Claws.h"
 #include <math.h>
 
 void BGDraw(const Graphic &graphic, const int &stageNo, const int &shakeX, const int &shakeY)
@@ -110,7 +112,14 @@ void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int
 				break;
 			case StagePile:
 				//杭の描画
-				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile, TRUE);
+				if (mapChip[y][x + 1] == StagePile)
+				{
+					DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile[1], TRUE);
+				}
+				else
+				{
+					DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile[0], TRUE);
+				}
 				break;
 			case StageSlime:
 				break;
@@ -125,28 +134,28 @@ void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int
 	}
 }
 
-void PlayerDraw(const int &x, const int &y, const Graphic &graphic, const bool &turn, const int &animationCount, const bool input[])
+void PlayerDraw(const int x, const int y, const Graphic graphic, const bool turn, const int animationCount, const int clawFlag, const bool input[])
 {
-	if (input[4] == FALSE && (input[2] == TRUE || input[3] == TRUE))
+	if (input[InputLeft] == true || input[InputRight] == true)
 	{
-		DrawRotaGraph(x, y, 1, 0, graphic.player.run[animationCount], TRUE, turn);
+		if (clawFlag == Normal)
+		{
+			DrawRotaGraph(x, y, 1, 0, graphic.player.run[animationCount], true, turn);
+		}
+		else
+		{
+			DrawRotaGraph(x, y, 1, 0, graphic.player.idle[animationCount], true, turn);
+		}
 	}
 	else
 	{
-		DrawRotaGraph(x, y, 1, 0, graphic.player.idle[animationCount], TRUE, turn);
+		DrawRotaGraph(x, y, 1, 0, graphic.player.idle[animationCount], true, turn);
 	}
 }
 
-void StarvationDrow(const int &x, const int &y, const int &width, const int &height, const Graphic &graphic, const bool &turn, const int &animationCount)
+void StarvationDrow(const int &x, const int &y, const Graphic &graphic, const bool &turn, const int &animationCount)
 {
-	if (turn == TRUE)
-	{
-		DrawTurnGraph(x - width, y - height, graphic.player.hungry[animationCount], TRUE);
-	}
-	else
-	{
-		DrawGraph(x - width, y - height, graphic.player.hungry[animationCount], TRUE);
-	}
+	DrawRotaGraph(x, y, 1, 0, graphic.player.hungry[animationCount], TRUE, turn);
 }
 //メニュー
 void MenuDraw(const int &menuY, const struct Graphic &graphic)
@@ -217,20 +226,15 @@ void WingDraw(const int &x, const int &y, const int &width, const int &height, c
 
 void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
-//<<<<<<< master
 	const int uiPosY = 595;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
 	DrawBox(30, uiPosY + 13, hungryTime / 4 + 30, uiPosY + 45, GetColor(255, 0, 0), TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
 	DrawGraph(0, uiPosY, graphic.hungry, TRUE);
-//=======
-	//DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
-	//DrawGraph(0, 0, graphic.hungry, TRUE);
 	//
 	DrawGraph(760, 10, graphic.menuButton, TRUE);
 	DrawGraph(792, 10, graphic.menuLetters, TRUE);
-//>>>>>>> master
 }
 
 void KeyDraw(const int goalFlag, const int GrHandle)
@@ -238,9 +242,9 @@ void KeyDraw(const int goalFlag, const int GrHandle)
 	if (goalFlag != 0)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
-		DrawCircle(455, 620, 12, GetColor(0x08, 0xF0, 0xF8), true);
+		DrawCircle(455, 625, 12, GetColor(0x08, 0xF0, 0xF8), true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
-		DrawRotaGraph(455, 620, 0.75, atan(1.0) * 2, GrHandle, true);
+		DrawRotaGraph(455, 625, 0.75, atan(1.0) * 2, GrHandle, true);
 	}
 }
 

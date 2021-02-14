@@ -10,4 +10,4 @@ enum InputData
 	InputMenu
 };
 
-void Input(const char keys[], const tagXINPUT_STATE &pad, bool *input);
+void Input(const char keys[], const XINPUT_STATE &pad, bool *input);
