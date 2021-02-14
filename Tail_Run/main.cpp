@@ -627,7 +627,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//リトライ
 			if (input[InputMenu] == 1 && oldInput[InputMenu] == 0)
 			{
-				scene = Menu;
+								for (int y = 0; y < mapHeight; y++)
+				{
+					for (int x = 0; x < mapWidth; x++)
+					{
+						mapChip[stageNo][y][x] = oldMapChip[y][x];
+					}
+				}
+				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
+					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
+					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+				AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
 			}
 
 			//ゴール確認用
