@@ -7,7 +7,7 @@ void BGDraw(const struct Graphic &graphic, const int &stageNo, const int &shakeX
 void TitleDraw(const struct Graphic &graphic);
 
 //ステージ選択の描画
-void SelectDraw(const int &blockSize, const int &stageSelectX, const int &stageSelectY, const int star[], const struct Graphic &graphic);
+void SelectDraw(const int &blockSize, const int &stageSelectX, const int &stageSelectY, const int star[], const int starAnimation, const struct Graphic graphic);
 
 //メニュー選択の描画
 void MenuDraw(const int &menuY, const struct Graphic &graphic);

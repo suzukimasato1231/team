@@ -11,6 +11,7 @@ void LoadGraphic(Graphic &graphic)
 	graphic.block[1] = LoadGraph("./Resource/graphic/block_sample.png");
 	graphic.title = LoadGraph("./Resource/graphic/title.png");
 	LoadDivGraph("./Resource/graphic/star.png", 2, 2, 1, 32, 32, graphic.star);
+	LoadDivGraph("./Resource/graphic/rainbowStar.png", 8, 8, 1, 32, 32, graphic.rainbowStar);
 	graphic.aButton = LoadGraph("./Resource/graphic/A_button.png");
 	//
 	graphic.menuButton = LoadGraph("./Resource/graphic/Menu_button.png");

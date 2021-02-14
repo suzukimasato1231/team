@@ -160,10 +160,11 @@ void Initial(const int &stageNo, int *playerX, int *playerY, int *clawFlag, int 
 }
 
 void AnimationInit(int *animation, int *playerAnimation, int *wingAnimation,
-	int *hungryAnimation, int *coinAnimation, int *clearAnimation)
+	int *hungryAnimation, int *coinAnimation, int *clearAnimation, int *starAnimation)
 {
 	if (animation == nullptr || playerAnimation == nullptr || wingAnimation == nullptr ||
-		hungryAnimation == nullptr || coinAnimation == nullptr || clearAnimation == nullptr)
+		hungryAnimation == nullptr || coinAnimation == nullptr || clearAnimation == nullptr ||
+		starAnimation == nullptr)
 	{
 		return;
 	}
@@ -174,4 +175,5 @@ void AnimationInit(int *animation, int *playerAnimation, int *wingAnimation,
 	*hungryAnimation = 0;
 	*coinAnimation = 0;
 	*clearAnimation = 0;
+	*starAnimation = 0;
 }

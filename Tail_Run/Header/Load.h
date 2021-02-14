@@ -12,7 +12,7 @@ typedef struct Player
 typedef struct Graphic
 {
 	int background[2] = { 0 }, cloud[2] = { 0 }, block[2] = { 0 };
-	int title = 0, star[2] = { 0 };
+	int title = 0, star[2] = { 0 }, rainbowStar[8] = { 0 };
 	int aButton = 0;
 	
 	int menuButton = 0;

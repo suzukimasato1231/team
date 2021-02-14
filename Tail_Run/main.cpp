@@ -123,7 +123,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//アニメーションループ用変数
 	int animation = 0;
 	int playerAnimation = 0, wingAnimation = 0, hungryAnimation = 0,
-		coinAnimation = 0, clearAnimation = 0;
+		coinAnimation = 0, clearAnimation = 0, starAnimation = 0;
 
 	//数字桁数上限
 	const int length = 8;
@@ -244,6 +244,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			clearAnimation++;
 			clearAnimation %= 6;
+
+			starAnimation++;
+			starAnimation %= 8;
 
 			if (hungryDeathFlag == TRUE)
 			{
@@ -410,7 +413,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
 				AnimationInit(&animation, &playerAnimation, &wingAnimation,
-					&hungryAnimation, &coinAnimation, &clearAnimation);
+					&hungryAnimation, &coinAnimation, &clearAnimation, &starAnimation);
 
 				if (scene != Title)
 				{
@@ -671,6 +674,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation,
+						&hungryAnimation, &coinAnimation, &clearAnimation, &starAnimation);
 					scene = Main;
 					break;
 				case 1:
@@ -680,6 +685,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation,
+						&hungryAnimation, &coinAnimation, &clearAnimation, &starAnimation);
 					break;
 				case 2:
 					scene = Music;
@@ -746,7 +753,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
-					AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation,
+						&hungryAnimation, &coinAnimation, &clearAnimation, &starAnimation);
 				}
 				else
 				{
@@ -754,7 +762,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
-					AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation,
+						&hungryAnimation, &coinAnimation, &clearAnimation, &starAnimation);
 
 					scene = Main;
 				}
@@ -766,9 +775,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				scene = StageSelection;
 
+				if (clearFlag == TRUE)
+				{
+					star[stageNo - 1] = 1;
+				}
 				if (perfectFlag == TRUE)
 				{
-					star[stageNo - 1] = TRUE;
+					star[stageNo - 1] = 2;
 				}
 
 				for (int y = 0; y < mapHeight; y++)
@@ -866,7 +879,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		case StageSelection:
 			//セレクト画面
-			SelectDraw(blockSize, stageSelectX, stageSelectY, star, graph);
+			SelectDraw(blockSize, stageSelectX, stageSelectY, star, starAnimation, graph);
 
 			break;
 		case GameOver:
