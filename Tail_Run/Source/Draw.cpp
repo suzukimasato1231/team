@@ -26,7 +26,7 @@ void TitleDraw(const Graphic &graphic)
 	DrawGraph(48, 32, graphic.title, TRUE);
 }
 
-void SelectDraw(const int &blockSize, const int &stageSelectX, const int &stageSelectY, const int star[], const Graphic &graphic)
+void SelectDraw(const int &blockSize, const int &stageSelectX, const int &stageSelectY, const int star[], const int starAnimation, const Graphic graphic)
 {
 	DrawGraph(0, 0, graphic.stage, TRUE);
 
@@ -36,24 +36,32 @@ void SelectDraw(const int &blockSize, const int &stageSelectX, const int &stageS
 		{
 			if (x + y * 7 < 10)
 			{
-				if (star[x + y * 7] == 1)
+				switch (star[x + y * 7])
 				{
-					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.star[0], TRUE);
-				}
-				else
-				{
+				case 1:
 					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.star[1], TRUE);
+					break;
+				case 2:
+					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.rainbowStar[starAnimation], TRUE);
+					break;
+				default:
+					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.star[0], TRUE);
+					break;
 				}
 			}
 			else if (x + y * 7 > 10)
 			{
-				if (star[(x + y * 7) - 1] == 1)
+				switch (star[(x + y * 7) - 1])
 				{
-					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.star[0], TRUE);
-				}
-				else
-				{
+				case 1:
 					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.star[1], TRUE);
+					break;
+				case 2:
+					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.rainbowStar[starAnimation], TRUE);
+					break;
+				default:
+					DrawGraph(x * 4 * blockSize + 38, y * 6 * blockSize + 56, graphic.star[0], TRUE);
+					break;
 				}
 			}
 		}
@@ -226,15 +234,13 @@ void WingDraw(const int &x, const int &y, const int &width, const int &height, c
 
 void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
-	const int uiPosY = 595;
-
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
-	DrawBox(30, uiPosY + 13, hungryTime / 4 + 30, uiPosY + 45, GetColor(255, 0, 0), TRUE);
+	DrawBox(35, 13, hungryTime / 4 + 35, 45, GetColor(255, 0, 0), TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
-	DrawGraph(0, uiPosY, graphic.hungry, TRUE);
+	DrawGraph(5, 0, graphic.hungry, TRUE);
 	//
-	DrawGraph(760, 10, graphic.menuButton, TRUE);
-	DrawGraph(792, 10, graphic.menuLetters, TRUE);
+	DrawGraph(800, 10, graphic.menuButton, TRUE);
+	DrawGraph(832, 10, graphic.menuLetters, TRUE);
 }
 
 void KeyDraw(const int goalFlag, const int GrHandle)
@@ -242,9 +248,9 @@ void KeyDraw(const int goalFlag, const int GrHandle)
 	if (goalFlag != 0)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
-		DrawCircle(455, 625, 12, GetColor(0x08, 0xF0, 0xF8), true);
+		DrawCircle(460, 30, 12, GetColor(0x08, 0xF0, 0xF8), true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
-		DrawRotaGraph(455, 625, 0.75, atan(1.0) * 2, GrHandle, true);
+		DrawRotaGraph(460, 30, 0.75, atan(1.0) * 2, GrHandle, true);
 	}
 }
 

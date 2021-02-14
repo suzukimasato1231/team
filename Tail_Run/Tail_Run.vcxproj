@@ -200,6 +200,7 @@
     <Image Include="Resource\graphic\player\player_idle.png" />
     <Image Include="Resource\graphic\player\player_run.png" />
     <Image Include="Resource\graphic\player\wing.png" />
+    <Image Include="Resource\graphic\rainbowStar.png" />
     <Image Include="Resource\graphic\select.png" />
     <Image Include="Resource\graphic\soundSelect.png" />
     <Image Include="Resource\graphic\stageSelect.png" />

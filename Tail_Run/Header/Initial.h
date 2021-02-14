@@ -7,4 +7,4 @@ void Initial(const int &stageNo, int *playerX, int *playerY, int *clawFlag, int 
 
 //アニメーションの初期化
 void AnimationInit(int *animation, int *playerAnimation, int *wingAnimation,
-	int *hungryAnimation, int *coinAnimation, int *clearAnimation);
+	int *hungryAnimation, int *coinAnimation, int *clearAnimation, int *starAnimation);

@@ -272,6 +272,9 @@
     <Image Include="Resource\graphic\Menu_button.png">
       <Filter>リソース ファイル\グラフィック\ボタン</Filter>
     </Image>
+    <Image Include="Resource\graphic\rainbowStar.png">
+      <Filter>リソース ファイル\グラフィック\セレクト</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Change.h">
