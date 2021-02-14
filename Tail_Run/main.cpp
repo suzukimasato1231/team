@@ -628,7 +628,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
-			//リトライ
+			//メニュー
 			if (input[InputMenu] == 1 && oldInput[InputMenu] == 0)
 			{
 				scene = Menu;
