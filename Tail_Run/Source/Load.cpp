@@ -12,6 +12,8 @@ void LoadGraphic(Graphic &graphic)
 	graphic.title = LoadGraph("./Resource/graphic/title.png");
 	LoadDivGraph("./Resource/graphic/star.png", 2, 2, 1, 32, 32, graphic.star);
 	graphic.aButton = LoadGraph("./Resource/graphic/A_button.png");
+	//
+	graphic.menuButton = LoadGraph("./Resource/graphic/Menu_button.png");
 	LoadDivGraph("./Resource/graphic/player/player_idle.png", 2, 2, 1, 32, 28, graphic.player.idle);
 	LoadDivGraph("./Resource/graphic/player/player_run.png", 4, 4, 1, 32, 28, graphic.player.run);
 	LoadDivGraph("./Resource/graphic/player/player_hungry.png", 3, 3, 1, 32, 28, graphic.player.hungry);
@@ -30,6 +32,14 @@ void LoadGraphic(Graphic &graphic)
 
 	graphic.gameover = LoadGraph("./Resource/graphic/gameover.png");
 	graphic.gameoverselect = LoadGraph("./Resource/graphic/gameoverSelect.png");
+	//
+	graphic.menu = LoadGraph("./Resource/graphic/menu.png");
+	graphic.menuLetters = LoadGraph("./Resource/graphic/Menu_Letters.png");
+
+	graphic.music= LoadGraph("./Resource/graphic/music.png");
+	graphic.note = LoadGraph("./Resource/graphic/note.png");
+	graphic.musicSelect = LoadGraph("./Resource/graphic/soundSelect.png");
+	
 	graphic.hungry = LoadGraph("./Resource/graphic/hungry.png");
 
 	LoadDivGraph("./Resource/graphic/clear.png", 6, 6, 1, 960, 640, graphic.clear);
@@ -112,14 +122,27 @@ int LoadCSV(const int &i)
 
 void SoundVolume(Sound sound)
 {
-	ChangeVolumeSoundMem(100, sound.bgm);
-	ChangeVolumeSoundMem(100, sound.shot);
-	ChangeVolumeSoundMem(100, sound.coin);
-	ChangeVolumeSoundMem(100, sound.food);
-	ChangeVolumeSoundMem(100, sound.key);
-	ChangeVolumeSoundMem(150, sound.goal);
-	ChangeVolumeSoundMem(100, sound.select);
-	ChangeVolumeSoundMem(100, sound.decision);
+	ChangeVolumeSoundMem(120, sound.bgm);
+	ChangeVolumeSoundMem(120, sound.shot);
+	ChangeVolumeSoundMem(120, sound.coin);
+	ChangeVolumeSoundMem(120, sound.food);
+	ChangeVolumeSoundMem(120, sound.key);
+	ChangeVolumeSoundMem(120, sound.goal);
+	ChangeVolumeSoundMem(120, sound.select);
+	ChangeVolumeSoundMem(120, sound.decision);
+}
+
+void SoundVolumeChange(const int SeVolume, const int BgmVolume, Sound sound)
+{
+	int volume = 40;
+	ChangeVolumeSoundMem(BgmVolume * volume, sound.bgm);
+	ChangeVolumeSoundMem(SeVolume * volume, sound.shot);
+	ChangeVolumeSoundMem(SeVolume * volume, sound.coin);
+	ChangeVolumeSoundMem(SeVolume * volume, sound.food);
+	ChangeVolumeSoundMem(SeVolume * volume, sound.key);
+	ChangeVolumeSoundMem(SeVolume * volume, sound.goal);
+	ChangeVolumeSoundMem(SeVolume * volume, sound.select);
+	ChangeVolumeSoundMem(SeVolume * volume, sound.decision);
 }
 
 void LoadSound(Sound &sound)

@@ -21,60 +21,60 @@
 #define mapWidth 30 + 2
 #define mapHeight 20 + 2
 
-// �E�B���h�E�̃^�C�g���ɕ\�����镶����
+// ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "Tail Run";
 
-// �E�B���h�E����
+// ウィンドウ横幅
 const int WIN_WIDTH = (mapWidth - 2) * blockSize;
 
-// �E�B���h�E�c��
+// ウィンドウ縦幅
 const int WIN_HEIGHT = (mapHeight - 2) * blockSize;
 
-//�A�C�R���̕ύX
+//アイコンの変更
 int SetWindowIconID(101);
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-	// �E�B���h�E���[�h�ɐݒ�
+	// ウィンドウモードに設定
 	ChangeWindowMode(TRUE);
 
-	// �E�B���h�E�T�C�Y���蓮�ł͕ύX�������A
-	// ���E�B���h�E�T�C�Y�ɍ��킹�Ċg��ł��Ȃ��悤�ɂ���
+	// ウィンドウサイズを手動では変更させず、
+	// かつウィンドウサイズに合わせて拡大できないようにする
 	SetWindowSizeChangeEnableFlag(FALSE, FALSE);
 
-	// �^�C�g����ύX
+	// タイトルを変更
 	SetMainWindowText(TITLE);
 
-	// ��ʃT�C�Y�̍ő�T�C�Y�A�J���[�r�b�g����ݒ�(���j�^�[�̉𑜓x�ɍ��킹��)
+	// 画面サイズの最大サイズ、カラービット数を設定(モニターの解像度に合わせる)
 	SetGraphMode(WIN_WIDTH, WIN_HEIGHT, 32);
 
-	// ��ʃT�C�Y��ݒ�(�𑜓x�Ƃ̔䗦�Őݒ�)
+	// 画面サイズを設定(解像度との比率で設定)
 	SetWindowSizeExtendRate(1.0);
 
-	// ��ʂ̔w�i�F��ݒ肷��
+	// 画面の背景色を設定する
 	SetBackgroundColor(0xC0, 0xC0, 0xC0);
 
-	// DXlib�̏�����
+	// DXlibの初期化
 	if (DxLib_Init() == -1) { return -1; }
 
-	// (�_�u���o�b�t�@)�`���O���t�B�b�N�̈�͗��ʂ��w��
+	// (ダブルバッファ)描画先グラフィック領域は裏面を指定
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	//�摜�̓ǂݍ���
+	//画像の読み込み
 	Graphic graph;
 	LoadGraphic(graph);
 
-	//�T�E���h�̓ǂݍ���
+	//サウンドの読み込み
 	Sound sound;
 	LoadSound(sound);
 
-	//�e�X�e�[�W�̃}�b�v�`�b�v�A�Ō�̓^�C�g��
-	//[�X�e�[�W�ԍ�][mapHeight][mapWidth]
+	//各ステージのマップチップ、最後はタイトル
+	//[ステージ番号][mapHeight][mapWidth]
 	int mapChip[21][mapHeight][mapWidth] = { 0 };
 
 	int oldMapChip[mapHeight][mapWidth] = { 0 };
 
-	//csv�t�@�C����ǂݍ���ŁA�}�b�v�`�b�v���쐬
+	//csvファイルを読み込んで、マップチップを作成
 	for (int i = 0; i < 21; i++)
 	{
 		int fileHandle;
@@ -99,136 +99,141 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		FileRead_close(fileHandle);
 	}
 
-	//Xbox�R���g���[���[�̓��͏��
+	//Xboxコントローラーの入力情報
 	XINPUT_STATE pad;
 
-	//�L�[���͂�Xbox�R���g���[���[�̓��͂̍������
-	//0�`3�F�㉺���E, 4�F�A�N�V�����R�}���h
+	//キー入力とXboxコントローラーの入力の合成情報
+	//0～3：上下左右, 4：アクションコマンド
 	bool input[6] = { 0 };
 
-	//1�t���[���O��input�̏��
+	//1フレーム前のinputの情報
 	bool oldInput[6] = { 0 };
 
 	//
-	//���͎��Ԍv���p(���傢�����ɑΉ������邽��)
+	//入力時間計測用(ちょい押しに対応させるため)
 	int inputCount[6] = { 0 };
 	//
 
-	//�Q�[���I���t���O
+	//ゲーム終了フラグ
 	bool endFlag = false;
 
-	//�V�[���p�ϐ�
+	//シーン用変数
 	int scene = Title;
 
-	//�A�j���[�V�������[�v�p�ϐ�
+	//アニメーションループ用変数
 	int animation = 0;
 	int playerAnimation = 0, wingAnimation = 0, hungryAnimation = 0,
 		coinAnimation = 0, clearAnimation = 0;
 
-	//�����������
+	//数字桁数上限
 	const int length = 8;
 	char strNum[length]{};
 	int number;
 
-	//�X�e�[�W�ԍ�
+	//ステージ番号
 	int stageNo = Title;
 
-	int playerX = WIN_WIDTH / 2, playerY = 400; //�v���C���[�̍��W
-	const int playerWidth = 16, playerHeight = 14; //�v���C���[�̑傫��(����)
+	int playerX = WIN_WIDTH / 2, playerY = 400; //プレイヤーの座標
+	const int playerWidth = 16, playerHeight = 14; //プレイヤーの大きさ(半分)
 
-	//���S�t���O
+	//死亡フラグ
 	bool deathFlag = FALSE;
 
-	//���S�G�t�F�N�g�p�t���O
+	//死亡エフェクト用フラグ
 	bool fallDeathFlag = FALSE, hungryDeathFlag = FALSE;
 
-	//��
+	//空腹
 	int hungryTime = 200;
 
-	int leftMapnumX = (playerX - playerWidth) / blockSize; //�v���C���[�̍��̃}�b�v�`�b�v�̏ꏊ
-	int rightMapnumX = (playerX + playerWidth) / blockSize; //�v���C���[�̉E�̃}�b�v�`�b�v�̏ꏊ
-	int upMapnumY = (playerY - playerHeight) / blockSize; //�v���C���[�̏�̃}�b�v�`�b�v�̏ꏊ
-	int downMapnumY = (playerY + playerHeight) / blockSize; //�v���C���[�̉��̃}�b�v�`�b�v�̏ꏊ
+	int leftMapnumX = (playerX - playerWidth) / blockSize; //プレイヤーの左のマップチップの場所
+	int rightMapnumX = (playerX + playerWidth) / blockSize; //プレイヤーの右のマップチップの場所
+	int upMapnumY = (playerY - playerHeight) / blockSize; //プレイヤーの上のマップチップの場所
+	int downMapnumY = (playerY + playerHeight) / blockSize; //プレイヤーの下のマップチップの場所
 
-	int memoryX = playerX, memoryY = playerY; //�����O�̃v���C���[�̍��W
-	bool playerTurn = FALSE; //false�ŉE�Atrue�ō�����������
+	int memoryX = playerX, memoryY = playerY; //動く前のプレイヤーの座標
+	bool playerTurn = FALSE; //falseで右、trueで左を向かせる
 
-	bool itemFlag = FALSE; //false�ł����܁Atrue�ŉH���g����
+	bool itemFlag = FALSE; //falseでかぎ爪、trueで羽が使える
 
-	bool wingUseFlag = FALSE; //true�ŉH�΂����Ă���
+	bool wingUseFlag = FALSE; //trueで羽ばたいている
 
-	int clawX = -100, clawY = -100; //�����܂̃w�b�h�̍��W
-	const int clawWidth = 8, clawHeight = 8; //�����܂̑傫��(����)
-	int chainCount = 0; //�o�Ă鍽�̐�
-	int clawFlag = Normal; //1�Ŕ��˒��A2�Ńv���C���[�̈ړ��A3�ł͂˕Ԃ�
+	int clawX = -100, clawY = -100; //かぎ爪のヘッドの座標
+	const int clawWidth = 8, clawHeight = 8; //かぎ爪の大きさ(半分)
+	int chainCount = 0; //出てる鎖の数
+	int clawFlag = Normal; //1で発射中、2でプレイヤーの移動、3ではね返し
 
-	int coinNum = 0; //�R�C��
-	int perfectFlag = 0, clearFlag = 0; //�S�[���t���O
+	int coinNum = 0; //コイン
+	int perfectFlag = 0, clearFlag = 0; //ゴールフラグ
 	int keyFlag = 1;
-	int goalFlag = 0; //�S�[���o���邩�ǂ���
+	int goalFlag = 0; //ゴール出来るかどうか
 
-	int stageCoin = 0; //�X�e�[�W���Ƃ̃R�C���̐�������
+	int stageCoin = 0; //ステージごとのコインの数を入れる
 
 	int gameoverSelectY = 0;
 	int stageSelectX = 0, stageSelectY = 0;
 
+	int MenuSelectY = 0;//メニュー選択の座標
+	int musicSelectY = 0;//音量選択の座標
 	int star[20] = { 0 };
 
-	int shakeX = 0, shakeY = 0; //�V�F�C�N�l
-	double shakePower = 50; //�V�F�C�N�̋���
-	int shakeTime = 30; //�V�F�C�N����
-	int shakeArea = 10; //�V�F�C�N�͈�
-	bool shakeResetFlag = FALSE; //�V�F�C�N�̃��Z�b�g(true�Ń��Z�b�g)
+	int seVolume = 3;//seボリューム
+	int bgmVolume = 3;//bgmボリューム
 
-	// �ŐV�̃L�[�{�[�h���p
+	int shakeX = 0, shakeY = 0; //シェイク値
+	double shakePower = 50; //シェイクの強さ
+	int shakeTime = 30; //シェイク時間
+	int shakeArea = 10; //シェイク範囲
+	bool shakeResetFlag = FALSE; //シェイクのリセット(trueでリセット)
+
+	// 最新のキーボード情報用
 	char keys[256] = { 0 };
 
-	// 1���[�v(�t���[��)�O�̃L�[�{�[�h���
+	// 1ループ(フレーム)前のキーボード情報
 	char oldkeys[256] = { 0 };
 
-	// �Q�[�����[�v
+	// ゲームループ
 	while (1)
 	{
-		// �ŐV�̃L�[�{�[�h��񂾂������̂�1�t���[���O�̃L�[�{�[�h���Ƃ��ĕۑ�
+		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
 		for (int i = 0; i < 256; i++)
 		{
 			oldkeys[i] = keys[i];
 		}
 
-		// �ŐV�̃L�[�{�[�h�����擾
+		// 最新のキーボード情報を取得
 		GetHitKeyStateAll(keys);
 
-		// ��ʃN���A
+		// 画面クリア
 		ClearDrawScreen();
-		//---------  ��������v���O�������L�q  ----------//
+		//---------  ここからプログラムを記述  ----------//
 
-		//�Q�[���p�b�h���͏���
+		//ゲームパッド入力処理
 		GetJoypadXInputState(DX_INPUT_PAD1, &pad);
 
-		//�ŐV�̓��͏�񂾂������̂�1�t���[���O�̓��͏��Ƃ��ĕۑ�
+		//最新の入力情報だったものは1フレーム前の入力情報として保存
 		for (int i = 0; i < 6; i++)
 		{
 			oldInput[i] = input[i];
 		}
 
-		//���͏��̌���
+		//入力情報の結合
 		Input(keys, pad, input);
 
 		for (int i = 0; i < 4; i++)
 		{
 			if (input[i] == TRUE)
 			{
-				//���͎��Ԍv��
+				//入力時間計測
 				inputCount[i]++;
 			}
 			else
 			{
-				//�v�������Z�b�g����
+				//計測をリセットする
 				inputCount[i] = 0;
 			}
 		}
 
-		//�A�j���[�V����
+		//アニメーション
 		animation++;
 		if (animation == 5)
 		{
@@ -274,13 +279,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 		}
 
-		//BGM�Đ�
+		//BGM再生
 		if (CheckSoundMem(sound.bgm) == 0)
 		{
 			PlaySoundMem(sound.bgm, DX_PLAYTYPE_BACK);
 		}
 
-		// �X�V����
+		// 更新処理
 		switch (scene)
 		{
 		case Title:
@@ -298,13 +303,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
-			//�v���C���[���ړ�������̃}�b�v�`�b�v�̏ꏊ
+			//プレイヤーが移動した後のマップチップの場所
 			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
 			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
 			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
 			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
-			//������
+			//かぎ爪
 			if (clawFlag == Normal)
 			{
 				if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
@@ -322,7 +327,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 				}
 
-				//�����܂�SE�̒�~
+				//かぎ爪のSEの停止
 				StopSoundMem(sound.shot);
 			}
 			else
@@ -331,7 +336,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				switch (clawFlag)
 				{
 				case Launching:
-					//���˒�
+					//発射中
 					if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[Title]) == 1)
 					{
 						clawFlag = PlayerMove;
@@ -346,7 +351,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 					break;
 				case PlayerMove:
-					//�v���C���[�̈ړ���
+					//プレイヤーの移動中
 					if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 					{
 						clawFlag = Normal;
@@ -356,7 +361,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 					break;
 				case Cancel:
-					//�����܂̂͂˕Ԃ�
+					//かぎ爪のはね返し
 					if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 					{
 						clawFlag = Normal;
@@ -369,14 +374,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					break;
 				}
 
-				//�����܂̌��ʉ��Đ�
+				//かぎ爪の効果音再生
 				if (CheckSoundMem(sound.shot) == 0)
 				{
 					PlaySoundMem(sound.shot, DX_PLAYTYPE_BACKBIT);
 				}
 			}
 
-			//�v���C���[�̓����蔻��E�߂�����
+			//プレイヤーの当たり判定・戻し処理
 			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY,
 				&leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[Title], blockSize);
 
@@ -390,17 +395,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				{
 					scene = StageSelection;
 
-					//�����܂�SE�̒�~
+					//かぎ爪のSEの停止
 					StopSoundMem(sound.shot);
 				}
 			}
 			break;
 		case StageSelection:
 			Select(&stageSelectX, &stageSelectY, &scene, &stageNo, input, oldInput, inputCount, sound);
-			//����
+			//決定
 			if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 			{
-				//�������t���O
+				//初期化フラグ
 				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
@@ -409,7 +414,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 				if (scene != Title)
 				{
-					//�X�e�[�W�̕ۑ�
+					//ステージの保存
 					for (int y = 0; y < mapHeight; y++)
 					{
 						for (int x = 0; x < mapWidth; x++)
@@ -420,6 +425,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 			break;
+
 		case Main:
 			memoryX = playerX;
 			memoryY = playerY;
@@ -436,7 +442,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			if (itemFlag == TRUE)
 			{
-				//�H
+				//羽
 				if (wingUseFlag == TRUE)
 				{
 					Gravity(&playerY);
@@ -455,7 +461,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 			else
 			{
-				//������
+				//かぎ爪
 				if (clawFlag == Normal)
 				{
 					Gravity(&playerY);
@@ -474,7 +480,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						}
 					}
 
-					//�����܂�SE�̒�~
+					//かぎ爪のSEの停止
 					StopSoundMem(sound.shot);
 				}
 				else
@@ -483,7 +489,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					switch (clawFlag)
 					{
 					case 1:
-						//���˒�
+						//発射中
 						if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[stageNo]) == 1)
 						{
 							clawFlag = PlayerMove;
@@ -498,7 +504,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						}
 						break;
 					case 2:
-						//�v���C���[�̈ړ���
+						//プレイヤーの移動中
 						if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 						{
 							clawFlag = Normal;
@@ -508,7 +514,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						}
 						break;
 					case 3:
-						//�����܂̂͂˕Ԃ�
+						//かぎ爪のはね返し
 						if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 						{
 							clawFlag = Normal;
@@ -521,7 +527,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						break;
 					}
 
-					//�����܂̌��ʉ��Đ�
+					//かぎ爪の効果音再生
 					if (CheckSoundMem(sound.shot) == 0)
 					{
 						PlaySoundMem(sound.shot, DX_PLAYTYPE_BACKBIT);
@@ -529,42 +535,42 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
-			//�v���C���[���ړ�������̃}�b�v�`�b�v�̏ꏊ
+			//プレイヤーが移動した後のマップチップの場所
 			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
 			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
 			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
 			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
-			//�v���C���[�̓����蔻��E�߂�����
+			//プレイヤーの当たり判定・戻し処理
 			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY, &leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[stageNo], blockSize);
 
-			//�v���C���[���ړ�������̃}�b�v�`�b�v�̏ꏊ
+			//プレイヤーが移動した後のマップチップの場所
 			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
 			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
 			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
 			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
-			//�R�C��
+			//コイン
 			Coin(&coinNum, mapChip[stageNo], leftMapnumX, rightMapnumX, upMapnumY, downMapnumY, sound.coin);
 
-			//��
+			//空腹
 			Food(&hungryTime, &hungryDeathFlag, mapChip[stageNo], leftMapnumX, rightMapnumX, upMapnumY, downMapnumY, stageNo, sound.food);
 
-			//�S�[��
+			//ゴール
 			Goal(&coinNum, &clearFlag, &perfectFlag, &keyFlag, &goalFlag, stageCoin, mapChip[stageNo], leftMapnumX, rightMapnumX, upMapnumY, downMapnumY, sound);
 
-			//�󕠂̃G�t�F�N�g
+			//空腹のエフェクト
 			if (hungryAnimation >= 3)
 			{
 				hungryAnimation = 0;
 				hungryDeathFlag = FALSE;
 				scene = GameOver;
 
-				//�����܂�SE�̒�~
+				//かぎ爪のSEの停止
 				StopSoundMem(sound.shot);
 			}
 
-			//�������̃G�t�F�N�g
+			//落下死のエフェクト
 			if (playerY >= WIN_HEIGHT && fallDeathFlag == FALSE)
 			{
 				fallDeathFlag = TRUE;
@@ -588,22 +594,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						fallDeathFlag = FALSE;
 						scene = GameOver;
 
-						//�����܂�SE�̒�~
+						//かぎ爪のSEの停止
 						StopSoundMem(sound.shot);
 					}
 				}
 			}
 
-			//DeathFlag�̌���
+			//DeathFlagの結合
 			if (fallDeathFlag == TRUE || hungryDeathFlag == TRUE)
 			{
 				deathFlag = TRUE;
 			}
 
-			//�{�[�i�X�X�e�[�W�̏���
+			//ボーナスステージの処理
 			if (stageNo == 20)
 			{
-				//�R�C���̎c�薇����0�Ȃ�}�b�v���Z�b�g
+				//コインの残り枚数が0ならマップリセット
 				if (coinNum % 564 == 0)
 				{
 					for (int y = 0; y < mapHeight; y++)
@@ -615,63 +621,101 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 				}
 
-				//�N���A�t���O
+				//クリアフラグ
 				if (hungryTime <= 0)
 				{
 					perfectFlag = 1;
 				}
 			}
 
-			//���g���C
+			//リトライ
 			if (input[InputMenu] == 1 && oldInput[InputMenu] == 0)
 			{
-				for (int y = 0; y < mapHeight; y++)
-				{
-					for (int x = 0; x < mapWidth; x++)
-					{
-						mapChip[stageNo][y][x] = oldMapChip[y][x];
-					}
-				}
-				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
-					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
-					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
-				AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
+				scene = Menu;
 			}
-			
-			//�S�[���m�F�p
+
+			//ゴール確認用
 			if (clearFlag == 1 || perfectFlag == 1)
 			{
-				//strNum��'\0'�ŏ�����
+				//strNumを'\0'で初期化
 				for (int i = 0; i < length; i++)
 				{
 					strNum[i] = '\0';
 				}
 
-				//�X�R�A�v�Z
+				//スコア計算
 				number = coinNum * 1000;
 				sprintf_s(strNum, sizeof(strNum), "%d", number);
 
 				scene = GameClear;
 
-				//�����܂�SE�̒�~
+				//かぎ爪のSEの停止
 				StopSoundMem(sound.shot);
 			}
 
 			break;
+		case Menu:
+			MenuSelect(&scene, &MenuSelectY, input, oldInput, inputCount, sound);
+			if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
+			{
+				switch (MenuSelectY)
+				{
+				case 0:
+					for (int i = 0; i < 20; i++)
+					{
+						for (int j = 0; j < 30; j++)
+						{
+							mapChip[stageNo][i][j] = oldMapChip[i][j];
+						}
+					}
+					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
+						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
+						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					scene = Main;
+					break;
+				case 1:
+					scene = Title;
+					stageNo = 0;
+					//初期化フラグ
+					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
+						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
+						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					break;
+				case 2:
+					scene = Music;
+					break;
+				}
+			}
+			//メニューボタンで戻る
+			if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
+			{
+				scene = Main;
+			}
+			break;
+		case Music:
+
+			MusicSelect(&musicSelectY, &seVolume, &bgmVolume, input, oldInput, inputCount, sound);
+			SoundVolumeChange(seVolume, bgmVolume, sound);
+			//メニューボタンで戻る
+			if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
+			{
+				scene = Main;
+			}
+			break;
 		case GameOver:
 
-			//��
+			//上
 			if (inputCount[InputUp] % 20 == 1)
 			{
 				gameoverSelectY -= 1;
 			}
-			//��
+			//下
 			if (inputCount[InputDown] % 20 == 1)
 			{
 				gameoverSelectY += 1;
 			}
 
-			//�}�C�i�X�ɂ��Ȃ�
+			//マイナスにしない
 			if (gameoverSelectY < 0) {
 				gameoverSelectY = 1;
 			}
@@ -679,7 +723,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				gameoverSelectY = 0;
 			}
-			//����
+			//決定
 			if (input[InputAction] == 1 && oldInput[InputAction] == 0)
 			{
 				for (int y = 0; y < mapHeight; y++)
@@ -690,7 +734,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 				}
 
-				//�Z���N�g��SE�Đ�
+				//セレクトのSE再生
 				PlaySoundMem(sound.decision, DX_PLAYTYPE_BACKBIT);
 
 				if (gameoverSelectY == 1)
@@ -698,7 +742,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					scene = Title;
 					stageNo = 0;
 
-					//�������t���O
+					//初期化フラグ
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
@@ -706,7 +750,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 				else
 				{
-					//�������t���O
+					//初期化フラグ
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
@@ -746,63 +790,64 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		}
 
-		// �`�揈��
+		// 描画処理
 		switch (scene)
 		{
 		case Title:
-			//�w�i�̕`��
+			//背景の描画
 			TitleDraw(graph);
 
-			//�n�ʂ̕`��
+			//地面の描画
 			StageDraw(blockSize, mapWidth, mapHeight, mapChip[Title], graph, coinAnimation);
 
-			//A�{�^���̕`��
+			//Aボタンの描画
 			DrawGraph(blockSize * 14, blockSize * 16, graph.aButton, TRUE);
 
-			//�����܂̕`��
+			//かぎ爪の描画
 			if (clawFlag != Normal)
 			{
 				ClawDraw(clawX, clawY, clawWidth, clawHeight, graph, playerTurn, chainCount + 1);
 			}
 
-			//�v���C���[�̕`��
+			//プレイヤーの描画
 			PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 
 			break;
+
 		case Main:
-			//�w�i�̕`��
+			//背景の描画
 			BGDraw(graph, stageNo);
 
-			//�n�ʂ̕`��
+			//地面の描画
 			StageDraw(blockSize, mapWidth, mapHeight, mapChip[stageNo], graph, coinAnimation);
 
-			//�������̃G�t�F�N�g
+			//落下死のエフェクト
 			if (shakeX != 0 || shakeY != 0)
 			{
 				BGDraw(graph, stageNo, shakeX, shakeY);
 				StageDraw(blockSize, mapWidth, mapHeight, mapChip[stageNo], graph, coinAnimation, shakeX, shakeY);
 			}
 
-			//�󕠃Q�[�W
+			//空腹ゲージ
 			HungryDraw(hungryTime, graph);
 
 			KeyDraw(goalFlag, graph.key);
 
 			if (itemFlag == TRUE)
 			{
-				//�H�̕`��
+				//羽の描画
 				WingDraw(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, wingUseFlag);
 			}
 			else
 			{
-				//�����܂̕`��
+				//かぎ爪の描画
 				if (clawFlag != Normal)
 				{
 					ClawDraw(clawX, clawY, clawWidth, clawHeight, graph, playerTurn, chainCount + 1);
 				}
 			}
 
-			//�v���C���[�̕`��
+			//プレイヤーの描画
 			if (hungryDeathFlag == TRUE)
 			{
 				StarvationDrow(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, hungryAnimation);
@@ -811,20 +856,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 			}
-
+			if (scene != Menu)break;
+		case Menu:
+			//メニュー画面
+			MenuDraw(MenuSelectY, graph);
+			break;
+		case Music:
+			MusicDraw(musicSelectY, seVolume, bgmVolume, graph);
 			break;
 		case StageSelection:
-			//�Z���N�g���
+			//セレクト画面
 			SelectDraw(blockSize, stageSelectX, stageSelectY, star, graph);
 
 			break;
 		case GameOver:
-			//�Q�[���I�[�o�[���
+			//ゲームオーバー画面
 			GameOverDraw(blockSize, gameoverSelectY, graph);
 
 			break;
 		case GameClear:
-			//�Q�[���N���A���
+			//ゲームクリア画面
 			GameClearDraw(strNum, clearAnimation, graph);
 
 			break;
@@ -832,31 +883,31 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		}
 
-		//�f�o�b�O�̕`��
+		//デバッグの描画
 		//DebugDraw(blockSize, WIN_WIDTH, WIN_HEIGHT, mapWidth, mapHeight, playerX, playerY, playerWidth, playerHeight);
 
-		//---------  �����܂łɃv���O�������L�q  ---------//
-		// (�_�u���o�b�t�@)����
+		//---------  ここまでにプログラムを記述  ---------//
+		// (ダブルバッファ)裏面
 		ScreenFlip();
 
-		// 20�~���b�ҋ@(�^��60FPS)
+		// 20ミリ秒待機(疑似60FPS)
 		WaitTimer(20);
 
-		// Windows�V�X�e�����炭�������������
+		// Windowsシステムからくる情報を処理する
 		if (ProcessMessage() == -1)
 		{
 			break;
 		}
 
-		// ESC�L�[�������ꂽ�烋�[�v���甲����
+		// ESCキーが押されたらループから抜ける
 		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1)
 		{
 			break;
 		}
 	}
-	// Dx���C�u�����I������
+	// Dxライブラリ終了処理
 	DxLib_End();
 
-	// ����I��
+	// 正常終了
 	return 0;
 }

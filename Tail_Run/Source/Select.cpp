@@ -178,3 +178,133 @@ void Select(int *stageSelectX, int *stageSelectY, int *scene, int *stageNo, bool
 		*stageSelectY = 2;
 	}
 }
+
+void MenuSelect(int *scene, int *menuSelectY, bool input[], bool oldInput[], int inputCount[], struct Sound sound)
+{
+	bool move = FALSE;
+	if (nullptr != menuSelectY && nullptr != scene)
+	{
+		//上
+		if (inputCount[InputUp] % 10 == 1)
+		{
+			move = TRUE;
+			*menuSelectY -= 1;
+		}
+		//下
+		if (inputCount[InputDown] % 10 == 1)
+		{
+			move = TRUE;
+			*menuSelectY += 1;
+		}
+
+		if (move == TRUE)
+		{
+			//セレクトのSE再生
+			PlaySoundMem(sound.select, DX_PLAYTYPE_BACKBIT);
+		}
+
+		//決定
+		if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
+		{
+			//決定のSE再生
+			PlaySoundMem(sound.decision, DX_PLAYTYPE_BACKBIT);
+		}
+
+		if (*menuSelectY > 2)
+		{
+			*menuSelectY = 0;
+		}
+		//マイナスにしない
+		if (*menuSelectY < 0) {
+			*menuSelectY = 2;
+		}
+	}
+}
+
+void MusicSelect(int *musicSelectY, int *seVolume, int *bgmVolume, bool input[], bool oldInput[], int inputCount[], Sound sound)
+{
+	bool move = FALSE;
+	if (nullptr != musicSelectY && nullptr != seVolume && nullptr != bgmVolume)
+	{
+		//上
+		if (inputCount[InputUp] % 10 == 1)
+		{
+			move = TRUE;
+			*musicSelectY -= 1;
+		}
+		//下
+		if (inputCount[InputDown] % 10 == 1)
+		{
+			move = TRUE;
+			*musicSelectY += 1;
+		}
+
+		if (*musicSelectY == 0)//SE
+		{
+			//左
+			if (inputCount[InputLeft] % 10 == 1)
+			{
+				move = TRUE;
+				*seVolume -= 1;
+			}
+			//右
+			if (inputCount[InputRight] % 10 == 1)
+			{
+				move = TRUE;
+				*seVolume += 1;
+			}
+			if (*seVolume < 0)
+			{
+				*seVolume = 0;
+			}
+			if (*seVolume > 5)
+			{
+				*seVolume = 5;
+			}
+		}
+		else//BGM
+		{
+			//左
+			if (inputCount[InputLeft] % 10 == 1)
+			{
+				move = TRUE;
+				*bgmVolume -= 1;
+			}
+			//右
+			if (inputCount[InputRight] % 10 == 1)
+			{
+				move = TRUE;
+				*bgmVolume += 1;
+			}
+			if (*bgmVolume < 0)
+			{
+				*bgmVolume = 0;
+			}
+			if (*bgmVolume > 5)
+			{
+				*bgmVolume = 5;
+			}
+		}
+		if (move == TRUE)
+		{
+			//セレクトのSE再生
+			PlaySoundMem(sound.select, DX_PLAYTYPE_BACKBIT);
+		}
+
+		//決定
+		if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
+		{
+			//決定のSE再生
+			PlaySoundMem(sound.decision, DX_PLAYTYPE_BACKBIT);
+		}
+
+		if (*musicSelectY > 1)
+		{
+			*musicSelectY = 0;
+		}
+		//マイナスにしない
+		if (*musicSelectY < 0) {
+			*musicSelectY = 2;
+		}
+	}
+}

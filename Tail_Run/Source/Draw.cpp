@@ -7,7 +7,7 @@
 void BGDraw(const Graphic &graphic, const int &stageNo, const int &shakeX, const int &shakeY)
 {
 	int i = 0;
-	if(stageNo == 20)
+	if (stageNo == 20)
 	{
 		i = 1;
 	}
@@ -70,7 +70,7 @@ void GameClearDraw(const char strNum[], const int clearAnimation, const Graphic 
 {
 	DrawGraph(0, 0, graphic.clear[clearAnimation], TRUE);
 
-	//”š‚ğ•\¦
+	//æ•°å­—ã‚’è¡¨ç¤º
 	for (int i = 0; i < 10; i++) {
 		int num = strNum[i] - 48;
 		DrawGraph(96 * i + 290, 340, graphic.number[num], TRUE);
@@ -89,27 +89,27 @@ void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int
 			case StageNone:
 				break;
 			case StageGround:
-				//’n–Ê‚Ì•`‰æ
+				//åœ°é¢ã®æç”»
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.block[0], TRUE);
 				break;
 			case StageGoal:
-				//ƒS[ƒ‹‚Ì•`‰æ
+				//ã‚´ãƒ¼ãƒ«ã®æç”»
 				DrawGraph(blockSize * x + shakeX, blockSize * (y - 1) + shakeY, graphic.goal, TRUE);
 				break;
 			case StageCoin:
-				//ƒRƒCƒ“‚Ì•`‰æ
+				//ã‚³ã‚¤ãƒ³ã®æç”»
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.coin[animationCount], TRUE);
 				break;
 			case StageFood:
-				//H‚×•¨‚Ì•`‰æ
+				//é£Ÿã¹ç‰©ã®æç”»
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.food, TRUE);
 				break;
 			case StageKey:
-				//Œ®‚Ì•`‰æ
+				//éµã®æç”»
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.key, TRUE);
 				break;
 			case StagePile:
-				//Y‚Ì•`‰æ
+				//æ­ã®æç”»
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile, TRUE);
 				break;
 			case StageSlime:
@@ -147,6 +147,26 @@ void StarvationDrow(const int &x, const int &y, const int &width, const int &hei
 	{
 		DrawGraph(x - width, y - height, graphic.player.hungry[animationCount], TRUE);
 	}
+}
+//ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+void MenuDraw(const int &menuY, const struct Graphic &graphic)
+{
+	int space = 160;
+	DrawGraph(0, 0, graphic.menu, TRUE);
+	DrawGraph(0, menuY * space - 96, graphic.gameoverselect, TRUE);
+	DrawGraph(280, 570, graphic.menuButton, TRUE);
+}
+
+void MusicDraw(const int musicSelectY, const int SeVolume, const int BgmVolume, const struct Graphic &graphic)
+{
+	int noteX = 360;
+	int noteSpace = 96;
+	int selectY = 150;
+	DrawGraph(0, 0, graphic.music, TRUE);
+	DrawGraph(0, musicSelectY * 190 + selectY, graphic.musicSelect, TRUE);
+	DrawGraph(noteX + SeVolume * noteSpace, 190, graphic.note, TRUE);
+	DrawGraph(noteX + BgmVolume * noteSpace, 385, graphic.note, TRUE);
+	DrawGraph(280, 570, graphic.menuButton, TRUE);
 }
 
 void ClawDraw(const int &x, const int &y, const int &width, const int &height, const Graphic &graphic, const bool &playerTurn, const int &count)
@@ -197,12 +217,20 @@ void WingDraw(const int &x, const int &y, const int &width, const int &height, c
 
 void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
+//<<<<<<< master
 	const int uiPosY = 595;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
 	DrawBox(30, uiPosY + 13, hungryTime / 4 + 30, uiPosY + 45, GetColor(255, 0, 0), TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
 	DrawGraph(0, uiPosY, graphic.hungry, TRUE);
+//=======
+	//DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
+	//DrawGraph(0, 0, graphic.hungry, TRUE);
+	//
+	DrawGraph(760, 10, graphic.menuButton, TRUE);
+	DrawGraph(792, 10, graphic.menuLetters, TRUE);
+//>>>>>>> master
 }
 
 void KeyDraw(const int goalFlag, const int GrHandle)
