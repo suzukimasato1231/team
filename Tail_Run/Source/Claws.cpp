@@ -9,12 +9,16 @@ void Claws(int *clawX, const int &clawWidth, int *chainCount, int *playerX, cons
 		return;
 	}
 
+	int launchingSpeed = 10;
+	int backSpeed = launchingSpeed * 2;
+
 	switch (flag)
 	{
 	case Launching:
 		if (playerTurn == TRUE)
 		{
-			*clawX -= 5;
+			*clawX -= launchingSpeed;
+
 			if (*clawX + clawWidth * 2 * (*chainCount) <= *playerX - playerWidth)
 			{
 				*chainCount += 1;
@@ -22,7 +26,8 @@ void Claws(int *clawX, const int &clawWidth, int *chainCount, int *playerX, cons
 		}
 		else
 		{
-			*clawX += 5;
+			*clawX += launchingSpeed;
+
 			if (*clawX - clawWidth * 2 * (*chainCount) >= *playerX + playerWidth)
 			{
 				*chainCount += 1;
@@ -32,36 +37,68 @@ void Claws(int *clawX, const int &clawWidth, int *chainCount, int *playerX, cons
 	case PlayerMove:
 		if (playerTurn == TRUE)
 		{
-			*playerX -= 10;
-			if (*playerX - playerWidth <= *clawX + clawWidth * 2 * (*chainCount - 1))
+			*playerX -= backSpeed;
+
+			for (int i = *chainCount - 1; i >= 0; i--)
 			{
-				*chainCount -= 1;
+				if (*playerX - playerWidth <= *clawX + clawWidth * 2 * i)
+				{
+					*chainCount -= 1;
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 		else
 		{
-			*playerX += 10;
-			if (*playerX + playerWidth >= *clawX - clawWidth * 2 * (*chainCount - 1))
+			*playerX += backSpeed;
+
+			for (int i = *chainCount - 1; i >= 0; i--)
 			{
-				*chainCount -= 1;
+				if (*playerX + playerWidth >= *clawX - clawWidth * 2 * i)
+				{
+					*chainCount -= 1;
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 		break;
 	case Cancel:
 		if (playerTurn == TRUE)
 		{
-			*clawX += 5;
-			if (*clawX + clawWidth * 2 * (*chainCount - 1) >= *playerX - playerWidth)
+			*clawX += backSpeed;
+
+			for (int i = *chainCount - 1; i >= 0; i--)
 			{
-				*chainCount -= 1;
+				if (*clawX + clawWidth * 2 * i >= *playerX - playerWidth)
+				{
+					*chainCount -= 1;
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 		else
 		{
-			*clawX -= 5;
-			if (*clawX - clawWidth * 2 * (*chainCount - 1) <= *playerX + playerWidth)
+			*clawX -= backSpeed;
+
+			for (int i = *chainCount - 1; i >= 0; i--)
 			{
-				*chainCount -= 1;
+				if (*clawX - clawWidth * 2 * i <= *playerX + playerWidth)
+				{
+					*chainCount -= 1;
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 		break;
