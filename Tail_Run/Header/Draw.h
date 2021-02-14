@@ -34,5 +34,8 @@ void ClawDraw(const int &x, const int &y, const int &width, const int &height, c
 //空腹ゲージ
 void HungryDraw(const int hungryTime, const struct Graphic &graphic);
 
+//ゴール出来るかどうかのUI
+void KeyDraw(const int goalFlag, const int GrHandle);
+
 //デバッグ用の線
 void DebugDraw(const int &blockSize, const int &winW, const int &winH, const int &mapW, const int &mapH, const int &playerX, const int &playerY, const int &playerW, const int &playerH);

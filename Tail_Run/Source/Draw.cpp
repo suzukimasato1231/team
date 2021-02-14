@@ -2,6 +2,7 @@
 #include "./../Header/Draw.h"
 #include "./../Header/Load.h"
 #include "./../Header/Stage.h"
+#include <math.h>
 
 void BGDraw(const Graphic &graphic, const int &stageNo, const int &shakeX, const int &shakeY)
 {
@@ -196,8 +197,21 @@ void WingDraw(const int &x, const int &y, const int &width, const int &height, c
 
 void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
-	DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
-	DrawGraph(0, 0, graphic.hungry, TRUE);
+	const int uiPosY = 590;
+
+	DrawBox(30, uiPosY + 13, hungryTime / 4 + 30, uiPosY + 45, GetColor(255, 0, 0), TRUE);
+	DrawGraph(0, uiPosY, graphic.hungry, TRUE);
+}
+
+void KeyDraw(const int goalFlag, const int GrHandle)
+{
+	if (goalFlag != 0)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
+		DrawCircle(455, 620, 12, GetColor(0x08, 0xF0, 0xF8), true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
+		DrawRotaGraph(455, 620, 0.75, atan(1.0) * 2, GrHandle, true);
+	}
 }
 
 void DebugDraw(const int &blockSize, const int &winW, const int &winH, const int &mapW, const int &mapH, const int &playerX, const int &playerY, const int &playerW, const int &playerH)

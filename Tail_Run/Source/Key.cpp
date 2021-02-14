@@ -3,11 +3,13 @@
 
 void Key(int *key, int *goal)
 {
-	if (key != nullptr && goal != nullptr)
+	if (key == nullptr || goal == nullptr)
 	{
-		if (*key != 0)
-		{
-			*goal = 1;
-		}
+		return;
+	}
+
+	if (*key != 0)
+	{
+		*goal = 1;
 	}
 }
