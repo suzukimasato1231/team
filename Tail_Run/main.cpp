@@ -253,17 +253,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
-			if (input[InputAction] == TRUE)
+			if (input[InputLeft] == TRUE || input[InputRight] == TRUE)
 			{
-				if (coinAnimation % 2 == 0)
-				{
-					playerAnimation++;
-				}
-				playerAnimation %= 2;
-			}
-			else
-			{
-				if (input[InputLeft] == TRUE || input[InputRight] == TRUE)
+				if (clawFlag == Normal)
 				{
 					playerAnimation++;
 					playerAnimation %= 4;
@@ -276,6 +268,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 					playerAnimation %= 2;
 				}
+			}
+			else
+			{
+				if (coinAnimation % 2 == 0)
+				{
+					playerAnimation++;
+				}
+				playerAnimation %= 2;
 			}
 		}
 
@@ -810,7 +810,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 
 			//プレイヤーの描画
-			PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
+			PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, clawFlag, input);
 
 			break;
 
@@ -850,11 +850,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//プレイヤーの描画
 			if (hungryDeathFlag == TRUE)
 			{
-				StarvationDrow(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, hungryAnimation);
+				StarvationDrow(playerX, playerY, graph, playerTurn, hungryAnimation);
 			}
 			else
 			{
-				PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
+				PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, clawFlag, input);
 			}
 			if (scene != Menu)break;
 		case Menu:

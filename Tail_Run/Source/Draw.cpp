@@ -2,6 +2,8 @@
 #include "./../Header/Draw.h"
 #include "./../Header/Load.h"
 #include "./../Header/Stage.h"
+#include "./../Header/Input.h"
+#include "./../Header/Claws.h"
 #include <math.h>
 
 void BGDraw(const Graphic &graphic, const int &stageNo, const int &shakeX, const int &shakeY)
@@ -132,28 +134,28 @@ void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int
 	}
 }
 
-void PlayerDraw(const int &x, const int &y, const Graphic &graphic, const bool &turn, const int &animationCount, const bool input[])
+void PlayerDraw(const int x, const int y, const Graphic graphic, const bool turn, const int animationCount, const int clawFlag, const bool input[])
 {
-	if (input[4] == FALSE && (input[2] == TRUE || input[3] == TRUE))
+	if (input[InputLeft] == true || input[InputRight] == true)
 	{
-		DrawRotaGraph(x, y, 1, 0, graphic.player.run[animationCount], TRUE, turn);
+		if (clawFlag == Normal)
+		{
+			DrawRotaGraph(x, y, 1, 0, graphic.player.run[animationCount], true, turn);
+		}
+		else
+		{
+			DrawRotaGraph(x, y, 1, 0, graphic.player.idle[animationCount], true, turn);
+		}
 	}
 	else
 	{
-		DrawRotaGraph(x, y, 1, 0, graphic.player.idle[animationCount], TRUE, turn);
+		DrawRotaGraph(x, y, 1, 0, graphic.player.idle[animationCount], true, turn);
 	}
 }
 
-void StarvationDrow(const int &x, const int &y, const int &width, const int &height, const Graphic &graphic, const bool &turn, const int &animationCount)
+void StarvationDrow(const int &x, const int &y, const Graphic &graphic, const bool &turn, const int &animationCount)
 {
-	if (turn == TRUE)
-	{
-		DrawTurnGraph(x - width, y - height, graphic.player.hungry[animationCount], TRUE);
-	}
-	else
-	{
-		DrawGraph(x - width, y - height, graphic.player.hungry[animationCount], TRUE);
-	}
+	DrawRotaGraph(x, y, 1, 0, graphic.player.hungry[animationCount], TRUE, turn);
 }
 //メニュー
 void MenuDraw(const int &menuY, const struct Graphic &graphic)
