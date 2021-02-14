@@ -187,7 +187,13 @@
     <Image Include="Resource\graphic\gameoverSelect.png" />
     <Image Include="Resource\graphic\hungry.png" />
     <Image Include="Resource\graphic\Key.png" />
+    <Image Include="Resource\graphic\menu.png" />
+    <Image Include="Resource\graphic\Menu_button.png" />
+    <Image Include="Resource\graphic\Menu_Letters.png" />
     <Image Include="Resource\graphic\mountain.png" />
+    <Image Include="Resource\graphic\music.png" />
+    <Image Include="Resource\graphic\note.png" />
+    <Image Include="Resource\graphic\number.png" />
     <Image Include="Resource\graphic\Pile.png" />
     <Image Include="Resource\graphic\player\hookShot.png" />
     <Image Include="Resource\graphic\player\player_hungry.png" />
@@ -195,6 +201,7 @@
     <Image Include="Resource\graphic\player\player_run.png" />
     <Image Include="Resource\graphic\player\wing.png" />
     <Image Include="Resource\graphic\select.png" />
+    <Image Include="Resource\graphic\soundSelect.png" />
     <Image Include="Resource\graphic\stageSelect.png" />
     <Image Include="Resource\graphic\star.png" />
     <Image Include="Resource\graphic\title.png" />
