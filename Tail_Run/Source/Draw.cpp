@@ -197,9 +197,11 @@ void WingDraw(const int &x, const int &y, const int &width, const int &height, c
 
 void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
-	const int uiPosY = 590;
+	const int uiPosY = 595;
 
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
 	DrawBox(30, uiPosY + 13, hungryTime / 4 + 30, uiPosY + 45, GetColor(255, 0, 0), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
 	DrawGraph(0, uiPosY, graphic.hungry, TRUE);
 }
 
