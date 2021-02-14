@@ -6,39 +6,43 @@
 
 void Player(int *x, int *y, bool *turn, bool input[], int map[20 + 2][30 + 2], int blockSize)
 {
-	if (x != nullptr && y != nullptr && turn != nullptr)
+	if (x == nullptr || y == nullptr || turn == nullptr)
 	{
-		if (input[InputLeft] == TRUE)
-		{
-			*x -= 2;
-			*turn = 1;
-		}
-		if (input[InputRight] == TRUE)
-		{
-			*x += 2;
-			*turn = 0;
-		}
-		/*if (input[0] == TRUE)
-		{
-			*y -= 2;
-		}
-		if (input[1] == TRUE)
-		{
-			*y += 2;
-		}*/
+		return;
+	}
 
-		if (*x <= 0)
-		{
-			*x = 0;
-		}
-		else if (*x >= blockSize * 30)
-		{
-			*x = blockSize * 30;
-		}
-		if (*y <= 0)
-		{
-			*y = 0;
-		}
+	int speed = 3;
+
+	if (input[InputLeft] == TRUE)
+	{
+		*x -= speed;
+		*turn = 1;
+	}
+	if (input[InputRight] == TRUE)
+	{
+		*x += speed;
+		*turn = 0;
+	}
+	/*if (input[0] == TRUE)
+	{
+		*y -= 2;
+	}
+	if (input[1] == TRUE)
+	{
+		*y += 2;
+	}*/
+
+	if (*x <= 0)
+	{
+		*x = 0;
+	}
+	else if (*x >= blockSize * 30)
+	{
+		*x = blockSize * 30;
+	}
+	if (*y <= 0)
+	{
+		*y = 0;
 	}
 }
 

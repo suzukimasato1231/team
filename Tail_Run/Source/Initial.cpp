@@ -124,7 +124,7 @@ void Initial(const int &stageNo, int *playerX, int *playerY, int *clawFlag, int 
 	case 15://15ステージ
 		*playerX = 50;
 		*playerY = 50;
-		*stageCoin = 3;
+		*stageCoin = 5;
 		*goalFlag = 0;
 		break;
 	case 16://16ステージ
