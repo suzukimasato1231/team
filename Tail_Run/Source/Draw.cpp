@@ -2,6 +2,7 @@
 #include "./../Header/Draw.h"
 #include "./../Header/Load.h"
 #include "./../Header/Stage.h"
+#include <math.h>
 
 void BGDraw(const Graphic &graphic, const int &stageNo, const int &shakeX, const int &shakeY)
 {
@@ -69,45 +70,46 @@ void GameClearDraw(const char strNum[], const int clearAnimation, const Graphic 
 {
 	DrawGraph(0, 0, graphic.clear[clearAnimation], TRUE);
 
-	//êîéöÇï\é¶
+	//Êï∞Â≠ó„ÇíË°®Á§∫
 	for (int i = 0; i < 10; i++) {
 		int num = strNum[i] - 48;
 		DrawGraph(96 * i + 290, 340, graphic.number[num], TRUE);
 	}
 }
 
-void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20][30], const Graphic &graphic, const int &animationCount, const int &shakeX, const int &shakeY)
+void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20 + 2][30 + 2],
+	const Graphic &graphic, const int &animationCount, const int &shakeX, const int &shakeY)
 {
-	for (int y = 0; y < mapH; y++)
+	for (int y = 0; y < mapH - 1; y++)
 	{
-		for (int x = 0; x < mapW; x++)
+		for (int x = 0; x < mapW - 2; x++)
 		{
-			switch (mapChip[y][x])
+			switch (mapChip[y + 1][x + 1])
 			{
 			case StageNone:
 				break;
 			case StageGround:
-				//ínñ ÇÃï`âÊ
+				//Âú∞Èù¢„ÅÆÊèèÁîª
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.block[0], TRUE);
 				break;
 			case StageGoal:
-				//ÉSÅ[ÉãÇÃï`âÊ
+				//„Ç¥„Éº„É´„ÅÆÊèèÁîª
 				DrawGraph(blockSize * x + shakeX, blockSize * (y - 1) + shakeY, graphic.goal, TRUE);
 				break;
 			case StageCoin:
-				//ÉRÉCÉìÇÃï`âÊ
+				//„Ç≥„Ç§„É≥„ÅÆÊèèÁîª
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.coin[animationCount], TRUE);
 				break;
 			case StageFood:
-				//êHÇ◊ï®ÇÃï`âÊ
+				//È£ü„ÅπÁâ©„ÅÆÊèèÁîª
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.food, TRUE);
 				break;
 			case StageKey:
-				//åÆÇÃï`âÊ
+				//Èçµ„ÅÆÊèèÁîª
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.key, TRUE);
 				break;
 			case StagePile:
-				//çYÇÃï`âÊ
+				//Êù≠„ÅÆÊèèÁîª
 				DrawGraph(blockSize * x + shakeX, blockSize * y + shakeY, graphic.pile, TRUE);
 				break;
 			case StageSlime:
@@ -146,7 +148,7 @@ void StarvationDrow(const int &x, const int &y, const int &width, const int &hei
 		DrawGraph(x - width, y - height, graphic.player.hungry[animationCount], TRUE);
 	}
 }
-//ÉÅÉjÉÖÅ[
+//„É°„Éã„É•„Éº
 void MenuDraw(const int &menuY, const struct Graphic &graphic)
 {
 	int space = 160;
@@ -215,11 +217,31 @@ void WingDraw(const int &x, const int &y, const int &width, const int &height, c
 
 void HungryDraw(const int hungryTime, const Graphic &graphic)
 {
-	DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
-	DrawGraph(0, 0, graphic.hungry, TRUE);
+//<<<<<<< master
+	const int uiPosY = 595;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
+	DrawBox(30, uiPosY + 13, hungryTime / 4 + 30, uiPosY + 45, GetColor(255, 0, 0), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
+	DrawGraph(0, uiPosY, graphic.hungry, TRUE);
+//=======
+	//DrawBox(30, 13, hungryTime / 4 + 30, 45, GetColor(255, 0, 0), TRUE);
+	//DrawGraph(0, 0, graphic.hungry, TRUE);
 	//
 	DrawGraph(760, 10, graphic.menuButton, TRUE);
 	DrawGraph(792, 10, graphic.menuLetters, TRUE);
+//>>>>>>> master
+}
+
+void KeyDraw(const int goalFlag, const int GrHandle)
+{
+	if (goalFlag != 0)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 0xC0);
+		DrawCircle(455, 620, 12, GetColor(0x08, 0xF0, 0xF8), true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0x00);
+		DrawRotaGraph(455, 620, 0.75, atan(1.0) * 2, GrHandle, true);
+	}
 }
 
 void DebugDraw(const int &blockSize, const int &winW, const int &winH, const int &mapW, const int &mapH, const int &playerX, const int &playerY, const int &playerW, const int &playerH)

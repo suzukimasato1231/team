@@ -70,15 +70,15 @@ void Claws(int *clawX, const int &clawWidth, int *chainCount, int *playerX, cons
 	}
 }
 
-char PileHit(const int &x, const int &y, const int &width, const int &height, const int &blockSize, const int map[20][30])
+char PileHit(const int &x, const int &y, const int &width, const int &height, const int &blockSize, const int map[20 + 2][30 + 2])
 {
 	char hitFlag = 0;
 	int blockLeft, blockRight;
 
-	blockLeft = (x - width) / blockSize;
-	blockRight = (x + width) / blockSize;
+	blockLeft = ((x - width) / blockSize) + 1;
+	blockRight = ((x + width) / blockSize) + 1;
 
-	for (int hitY = (y - height) + 1; hitY < (y + height) - 1; hitY++)
+	for (int hitY = ((y - height) + 1) + blockSize; hitY < ((y + height) - 1) + blockSize; hitY++)
 	{
 		if (map[hitY / blockSize][blockLeft] == StagePile ||
 			map[hitY / blockSize][blockRight] == StagePile)

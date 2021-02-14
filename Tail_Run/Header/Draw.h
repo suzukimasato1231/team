@@ -20,7 +20,8 @@ void GameOverDraw(const int &blockSize, const int &gameoverSelectY, const struct
 void GameClearDraw(const char strNum[], const int clearAnimation, const struct Graphic &graphic);
 
 //ステージの描画
-void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20][30], const struct Graphic &graphic, const int &animationCount, const int &shakeX = 0, const int &shakeY = 0);
+void StageDraw(const int &blockSize, const int &mapW, const int &mapH, const int mapChip[20 + 2][30 + 2],
+	const struct Graphic &graphic, const int &animationCount, const int &shakeX = 0, const int &shakeY = 0);
 
 //プレイヤーの描画
 void PlayerDraw(const int &x, const int &y, const struct Graphic &graphic, const bool &turn, const int &animationCount, const bool input[]);
@@ -36,6 +37,9 @@ void ClawDraw(const int &x, const int &y, const int &width, const int &height, c
 
 //空腹ゲージ
 void HungryDraw(const int hungryTime, const struct Graphic &graphic);
+
+//ゴール出来るかどうかのUI
+void KeyDraw(const int goalFlag, const int GrHandle);
 
 //デバッグ用の線
 void DebugDraw(const int &blockSize, const int &winW, const int &winH, const int &mapW, const int &mapH, const int &playerX, const int &playerY, const int &playerW, const int &playerH);

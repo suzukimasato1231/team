@@ -4,7 +4,7 @@
 #include "./../Header/Wing.h"
 #include "./../Header/Stage.h"
 
-void Player(int *x, int *y, bool *turn, bool input[], int map[20][30], int blockSize)
+void Player(int *x, int *y, bool *turn, bool input[], int map[20 + 2][30 + 2], int blockSize)
 {
 	if (x != nullptr && y != nullptr && turn != nullptr)
 	{
@@ -42,7 +42,8 @@ void Player(int *x, int *y, bool *turn, bool input[], int map[20][30], int block
 	}
 }
 
-void PlayerCollision(int *x, int *y, int width, int heigth, int *memoryX, int *memoryY, int *leftMapnumX, int *rightMapnumX, int *upMapnumY, int *downMapnumY, bool input[], int map[20][30], int blockSize)
+void PlayerCollision(int *x, int *y, int width, int heigth, int *memoryX, int *memoryY,
+	int *leftMapnumX, int *rightMapnumX, int *upMapnumY, int *downMapnumY, bool input[], int map[20 + 2][30 + 2], int blockSize)
 {
 	if (nullptr == x || nullptr == y ||
 		nullptr == memoryX || nullptr == memoryY ||
@@ -52,8 +53,8 @@ void PlayerCollision(int *x, int *y, int width, int heigth, int *memoryX, int *m
 		return;
 	}
 
-	int centerMapNumX = *x / blockSize;
-	int centerMapNumY = *y / blockSize;
+	int centerMapNumX = (*x / blockSize) + 1;
+	int centerMapNumY = (*y / blockSize) + 1;
 
 	//左下のオブジェクトの当たり判定
 	if (map[*downMapnumY][*leftMapnumX] == StageGround)

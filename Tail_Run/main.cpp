@@ -2,6 +2,7 @@
 #include "./Header/Load.h"
 #include <ctype.h>
 #include "./Header/Input.h"
+#include "./Header/Stage.h"
 #include "./Header/Scene.h"
 #include "./Header/Player.h"
 #include "./Header/Change.h"
@@ -17,63 +18,63 @@
 #include "./Header/Draw.h"
 
 #define blockSize 32
-#define mapWidth 30
-#define mapHeight 20
+#define mapWidth 30 + 2
+#define mapHeight 20 + 2
 
-// ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹‚É•\¦‚·‚é•¶š—ñ
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«ã«è¡¨ç¤ºã™ã‚‹æ–‡å­—åˆ—
 const char TITLE[] = "Tail Run";
 
-// ƒEƒBƒ“ƒhƒE‰¡•
-const int WIN_WIDTH = mapWidth * blockSize;
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦æ¨ªå¹…
+const int WIN_WIDTH = (mapWidth - 2) * blockSize;
 
-// ƒEƒBƒ“ƒhƒEc•
-const int WIN_HEIGHT = mapHeight * blockSize;
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç¸¦å¹…
+const int WIN_HEIGHT = (mapHeight - 2) * blockSize;
 
-//ƒAƒCƒRƒ“‚Ì•ÏX
+//ã‚¢ã‚¤ã‚³ãƒ³ã®å¤‰æ›´
 int SetWindowIconID(101);
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-	// ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Éİ’è
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã«è¨­å®š
 	ChangeWindowMode(TRUE);
 
-	// ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğè“®‚Å‚Í•ÏX‚³‚¹‚¸A
-	// ‚©‚ÂƒEƒBƒ“ƒhƒEƒTƒCƒY‚É‡‚í‚¹‚ÄŠg‘å‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’æ‰‹å‹•ã§ã¯å¤‰æ›´ã•ã›ãšã€
+	// ã‹ã¤ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦æ‹¡å¤§ã§ããªã„ã‚ˆã†ã«ã™ã‚‹
 	SetWindowSizeChangeEnableFlag(FALSE, FALSE);
 
-	// ƒ^ƒCƒgƒ‹‚ğ•ÏX
+	// ã‚¿ã‚¤ãƒˆãƒ«ã‚’å¤‰æ›´
 	SetMainWindowText(TITLE);
 
-	// ‰æ–ÊƒTƒCƒY‚ÌÅ‘åƒTƒCƒYAƒJƒ‰[ƒrƒbƒg”‚ğİ’è(ƒ‚ƒjƒ^[‚Ì‰ğ‘œ“x‚É‡‚í‚¹‚é)
+	// ç”»é¢ã‚µã‚¤ã‚ºã®æœ€å¤§ã‚µã‚¤ã‚ºã€ã‚«ãƒ©ãƒ¼ãƒ“ãƒƒãƒˆæ•°ã‚’è¨­å®š(ãƒ¢ãƒ‹ã‚¿ãƒ¼ã®è§£åƒåº¦ã«åˆã‚ã›ã‚‹)
 	SetGraphMode(WIN_WIDTH, WIN_HEIGHT, 32);
 
-	// ‰æ–ÊƒTƒCƒY‚ğİ’è(‰ğ‘œ“x‚Æ‚Ì”ä—¦‚Åİ’è)
+	// ç”»é¢ã‚µã‚¤ã‚ºã‚’è¨­å®š(è§£åƒåº¦ã¨ã®æ¯”ç‡ã§è¨­å®š)
 	SetWindowSizeExtendRate(1.0);
 
-	// ‰æ–Ê‚Ì”wŒiF‚ğİ’è‚·‚é
+	// ç”»é¢ã®èƒŒæ™¯è‰²ã‚’è¨­å®šã™ã‚‹
 	SetBackgroundColor(0xC0, 0xC0, 0xC0);
 
-	// DXlib‚Ì‰Šú‰»
+	// DXlibã®åˆæœŸåŒ–
 	if (DxLib_Init() == -1) { return -1; }
 
-	// (ƒ_ƒuƒ‹ƒoƒbƒtƒ@)•`‰ææƒOƒ‰ƒtƒBƒbƒN—Ìˆæ‚Í— –Ê‚ğw’è
+	// (ãƒ€ãƒ–ãƒ«ãƒãƒƒãƒ•ã‚¡)æç”»å…ˆã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯é ˜åŸŸã¯è£é¢ã‚’æŒ‡å®š
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	//‰æ‘œ‚Ì“Ç‚İ‚İ
+	//ç”»åƒã®èª­ã¿è¾¼ã¿
 	Graphic graph;
 	LoadGraphic(graph);
 
-	//ƒTƒEƒ“ƒh‚Ì“Ç‚İ‚İ
+	//ã‚µã‚¦ãƒ³ãƒ‰ã®èª­ã¿è¾¼ã¿
 	Sound sound;
 	LoadSound(sound);
 
-	//ŠeƒXƒe[ƒW‚Ìƒ}ƒbƒvƒ`ƒbƒvAÅŒã‚Íƒ^ƒCƒgƒ‹
-	//[ƒXƒe[ƒW”Ô†][mapHeight][mapWidth]
+	//å„ã‚¹ãƒ†ãƒ¼ã‚¸ã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã€æœ€å¾Œã¯ã‚¿ã‚¤ãƒˆãƒ«
+	//[ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·][mapHeight][mapWidth]
 	int mapChip[21][mapHeight][mapWidth] = { 0 };
 
 	int oldMapChip[mapHeight][mapWidth] = { 0 };
 
-	//csvƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅAƒ}ƒbƒvƒ`ƒbƒv‚ğì¬
+	//csvãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ã€ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã‚’ä½œæˆ
 	for (int i = 0; i < 21; i++)
 	{
 		int fileHandle;
@@ -83,9 +84,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		for (int y = 0; y < mapHeight; y++)
 		{
 			FileRead_gets(string, 256, fileHandle);
-			for (int x = 0, j = 0; x < mapWidth; j++)
+			for (int x = 0, j = 0; string[j] != '\0'; j++)
 			{
-				if (string[j] == '\0' || ispunct(string[j]))
+				if (ispunct(string[j]))
 				{
 					x++;
 				}
@@ -98,141 +99,141 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		FileRead_close(fileHandle);
 	}
 
-	//XboxƒRƒ“ƒgƒ[ƒ‰[‚Ì“ü—Íî•ñ
+	//Xboxã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®å…¥åŠ›æƒ…å ±
 	XINPUT_STATE pad;
 
-	//ƒL[“ü—Í‚ÆXboxƒRƒ“ƒgƒ[ƒ‰[‚Ì“ü—Í‚Ì‡¬î•ñ
-	//0`3Fã‰º¶‰E, 4FƒAƒNƒVƒ‡ƒ“ƒRƒ}ƒ“ƒh
+	//ã‚­ãƒ¼å…¥åŠ›ã¨Xboxã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®å…¥åŠ›ã®åˆæˆæƒ…å ±
+	//0ï½3ï¼šä¸Šä¸‹å·¦å³, 4ï¼šã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚³ãƒãƒ³ãƒ‰
 	bool input[6] = { 0 };
 
-	//1ƒtƒŒ[ƒ€‘O‚Ìinput‚Ìî•ñ
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®inputã®æƒ…å ±
 	bool oldInput[6] = { 0 };
 
 	//
-	//“ü—ÍŠÔŒv‘ª—p(‚¿‚å‚¢‰Ÿ‚µ‚É‘Î‰‚³‚¹‚é‚½‚ß)
+	//å…¥åŠ›æ™‚é–“è¨ˆæ¸¬ç”¨(ã¡ã‚‡ã„æŠ¼ã—ã«å¯¾å¿œã•ã›ã‚‹ãŸã‚)
 	int inputCount[6] = { 0 };
 	//
 
-	//ƒQ[ƒ€I—¹ƒtƒ‰ƒO
+	//ã‚²ãƒ¼ãƒ çµ‚äº†ãƒ•ãƒ©ã‚°
 	bool endFlag = false;
 
-	//ƒV[ƒ“—p•Ï”
+	//ã‚·ãƒ¼ãƒ³ç”¨å¤‰æ•°
 	int scene = Title;
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“ƒ‹[ƒv—p•Ï”
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ«ãƒ¼ãƒ—ç”¨å¤‰æ•°
 	int animation = 0;
 	int playerAnimation = 0, wingAnimation = 0, hungryAnimation = 0,
 		coinAnimation = 0, clearAnimation = 0;
 
-	//”šŒ…”ãŒÀ
+	//æ•°å­—æ¡æ•°ä¸Šé™
 	const int length = 8;
 	char strNum[length]{};
 	int number;
 
-	//ƒXƒe[ƒW”Ô†
+	//ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·
 	int stageNo = Title;
 
-	int playerX = WIN_WIDTH / 2, playerY = 400; //ƒvƒŒƒCƒ„[‚ÌÀ•W
-	const int playerWidth = 16, playerHeight = 14; //ƒvƒŒƒCƒ„[‚Ì‘å‚«‚³(”¼•ª)
+	int playerX = WIN_WIDTH / 2, playerY = 400; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+	const int playerWidth = 16, playerHeight = 14; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¤§ãã•(åŠåˆ†)
 
-	//€–Sƒtƒ‰ƒO
+	//æ­»äº¡ãƒ•ãƒ©ã‚°
 	bool deathFlag = FALSE;
 
-	//€–SƒGƒtƒFƒNƒg—pƒtƒ‰ƒO
+	//æ­»äº¡ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç”¨ãƒ•ãƒ©ã‚°
 	bool fallDeathFlag = FALSE, hungryDeathFlag = FALSE;
 
-	//‹ó• 
+	//ç©ºè…¹
 	int hungryTime = 200;
 
-	int leftMapnumX = (playerX - playerWidth) / blockSize; //ƒvƒŒƒCƒ„[‚Ì¶‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ÌêŠ
-	int rightMapnumX = (playerX + playerWidth) / blockSize; //ƒvƒŒƒCƒ„[‚Ì‰E‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ÌêŠ
-	int upMapnumY = (playerY - playerHeight) / blockSize; //ƒvƒŒƒCƒ„[‚Ìã‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ÌêŠ
-	int downMapnumY = (playerY + playerHeight) / blockSize; //ƒvƒŒƒCƒ„[‚Ì‰º‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ÌêŠ
+	int leftMapnumX = (playerX - playerWidth) / blockSize; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å·¦ã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®å ´æ‰€
+	int rightMapnumX = (playerX + playerWidth) / blockSize; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å³ã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®å ´æ‰€
+	int upMapnumY = (playerY - playerHeight) / blockSize; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä¸Šã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®å ´æ‰€
+	int downMapnumY = (playerY + playerHeight) / blockSize; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä¸‹ã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®å ´æ‰€
 
-	int memoryX = playerX, memoryY = playerY; //“®‚­‘O‚ÌƒvƒŒƒCƒ„[‚ÌÀ•W
-	bool playerTurn = FALSE; //false‚Å‰EAtrue‚Å¶‚ğŒü‚©‚¹‚é
+	int memoryX = playerX, memoryY = playerY; //å‹•ãå‰ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+	bool playerTurn = FALSE; //falseã§å³ã€trueã§å·¦ã‚’å‘ã‹ã›ã‚‹
 
-	bool itemFlag = FALSE; //false‚Å‚©‚¬’ÜAtrue‚Å‰H‚ªg‚¦‚é
+	bool itemFlag = FALSE; //falseã§ã‹ãçˆªã€trueã§ç¾½ãŒä½¿ãˆã‚‹
 
-	bool wingUseFlag = FALSE; //true‚Å‰H‚Î‚½‚¢‚Ä‚¢‚é
+	bool wingUseFlag = FALSE; //trueã§ç¾½ã°ãŸã„ã¦ã„ã‚‹
 
-	int clawX = -100, clawY = -100; //‚©‚¬’Ü‚Ìƒwƒbƒh‚ÌÀ•W
-	const int clawWidth = 8, clawHeight = 8; //‚©‚¬’Ü‚Ì‘å‚«‚³(”¼•ª)
-	int chainCount = 0; //o‚Ä‚é½‚Ì”
-	int clawFlag = Normal; //1‚Å”­Ë’†A2‚ÅƒvƒŒƒCƒ„[‚ÌˆÚ“®A3‚Å‚Í‚Ë•Ô‚µ
+	int clawX = -100, clawY = -100; //ã‹ãçˆªã®ãƒ˜ãƒƒãƒ‰ã®åº§æ¨™
+	const int clawWidth = 8, clawHeight = 8; //ã‹ãçˆªã®å¤§ãã•(åŠåˆ†)
+	int chainCount = 0; //å‡ºã¦ã‚‹é–ã®æ•°
+	int clawFlag = Normal; //1ã§ç™ºå°„ä¸­ã€2ã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ã€3ã§ã¯ã­è¿”ã—
 
-	int coinNum = 0; //ƒRƒCƒ“
-	int perfectFlag = 0, clearFlag = 0; //ƒS[ƒ‹ƒtƒ‰ƒO
+	int coinNum = 0; //ã‚³ã‚¤ãƒ³
+	int perfectFlag = 0, clearFlag = 0; //ã‚´ãƒ¼ãƒ«ãƒ•ãƒ©ã‚°
 	int keyFlag = 1;
-	int goalFlag = 0; //ƒS[ƒ‹o—ˆ‚é‚©‚Ç‚¤‚©
+	int goalFlag = 0; //ã‚´ãƒ¼ãƒ«å‡ºæ¥ã‚‹ã‹ã©ã†ã‹
 
-	int stageCoin = 0; //ƒXƒe[ƒW‚²‚Æ‚ÌƒRƒCƒ“‚Ì”‚ğ“ü‚ê‚é
+	int stageCoin = 0; //ã‚¹ãƒ†ãƒ¼ã‚¸ã”ã¨ã®ã‚³ã‚¤ãƒ³ã®æ•°ã‚’å…¥ã‚Œã‚‹
 
 	int gameoverSelectY = 0;
 	int stageSelectX = 0, stageSelectY = 0;
 
-	int MenuSelectY = 0;//ƒƒjƒ…[‘I‘ğ‚ÌÀ•W
-	int musicSelectY = 0;//‰¹—Ê‘I‘ğ‚ÌÀ•W
+	int MenuSelectY = 0;//ãƒ¡ãƒ‹ãƒ¥ãƒ¼é¸æŠã®åº§æ¨™
+	int musicSelectY = 0;//éŸ³é‡é¸æŠã®åº§æ¨™
 	int star[20] = { 0 };
 
-	int seVolume = 3;//seƒ{ƒŠƒ…[ƒ€
-	int bgmVolume = 3;//bgmƒ{ƒŠƒ…[ƒ€
+	int seVolume = 3;//seãƒœãƒªãƒ¥ãƒ¼ãƒ 
+	int bgmVolume = 3;//bgmãƒœãƒªãƒ¥ãƒ¼ãƒ 
 
-	int shakeX = 0, shakeY = 0; //ƒVƒFƒCƒN’l
-	double shakePower = 50; //ƒVƒFƒCƒN‚Ì‹­‚³
-	int shakeTime = 30; //ƒVƒFƒCƒNŠÔ
-	int shakeArea = 10; //ƒVƒFƒCƒN”ÍˆÍ
-	bool shakeResetFlag = FALSE; //ƒVƒFƒCƒN‚ÌƒŠƒZƒbƒg(true‚ÅƒŠƒZƒbƒg)
+	int shakeX = 0, shakeY = 0; //ã‚·ã‚§ã‚¤ã‚¯å€¤
+	double shakePower = 50; //ã‚·ã‚§ã‚¤ã‚¯ã®å¼·ã•
+	int shakeTime = 30; //ã‚·ã‚§ã‚¤ã‚¯æ™‚é–“
+	int shakeArea = 10; //ã‚·ã‚§ã‚¤ã‚¯ç¯„å›²
+	bool shakeResetFlag = FALSE; //ã‚·ã‚§ã‚¤ã‚¯ã®ãƒªã‚»ãƒƒãƒˆ(trueã§ãƒªã‚»ãƒƒãƒˆ)
 
-	// ÅV‚ÌƒL[ƒ{[ƒhî•ñ—p
+	// æœ€æ–°ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ç”¨
 	char keys[256] = { 0 };
 
-	// 1ƒ‹[ƒv(ƒtƒŒ[ƒ€)‘O‚ÌƒL[ƒ{[ƒhî•ñ
+	// 1ãƒ«ãƒ¼ãƒ—(ãƒ•ãƒ¬ãƒ¼ãƒ )å‰ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±
 	char oldkeys[256] = { 0 };
 
-	// ƒQ[ƒ€ƒ‹[ƒv
+	// ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
 	while (1)
 	{
-		// ÅV‚ÌƒL[ƒ{[ƒhî•ñ‚¾‚Á‚½‚à‚Ì‚Í1ƒtƒŒ[ƒ€‘O‚ÌƒL[ƒ{[ƒhî•ñ‚Æ‚µ‚Ä•Û‘¶
+		// æœ€æ–°ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã ã£ãŸã‚‚ã®ã¯1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã¨ã—ã¦ä¿å­˜
 		for (int i = 0; i < 256; i++)
 		{
 			oldkeys[i] = keys[i];
 		}
 
-		// ÅV‚ÌƒL[ƒ{[ƒhî•ñ‚ğæ“¾
+		// æœ€æ–°ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã‚’å–å¾—
 		GetHitKeyStateAll(keys);
 
-		// ‰æ–ÊƒNƒŠƒA
+		// ç”»é¢ã‚¯ãƒªã‚¢
 		ClearDrawScreen();
-		//---------  ‚±‚±‚©‚çƒvƒƒOƒ‰ƒ€‚ğ‹Lq  ----------//
+		//---------  ã“ã“ã‹ã‚‰ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’è¨˜è¿°  ----------//
 
-		//ƒQ[ƒ€ƒpƒbƒh“ü—Íˆ—
+		//ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰å…¥åŠ›å‡¦ç†
 		GetJoypadXInputState(DX_INPUT_PAD1, &pad);
 
-		//ÅV‚Ì“ü—Íî•ñ‚¾‚Á‚½‚à‚Ì‚Í1ƒtƒŒ[ƒ€‘O‚Ì“ü—Íî•ñ‚Æ‚µ‚Ä•Û‘¶
+		//æœ€æ–°ã®å…¥åŠ›æƒ…å ±ã ã£ãŸã‚‚ã®ã¯1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®å…¥åŠ›æƒ…å ±ã¨ã—ã¦ä¿å­˜
 		for (int i = 0; i < 6; i++)
 		{
 			oldInput[i] = input[i];
 		}
 
-		//“ü—Íî•ñ‚ÌŒ‹‡
+		//å…¥åŠ›æƒ…å ±ã®çµåˆ
 		Input(keys, pad, input);
 
 		for (int i = 0; i < 4; i++)
 		{
 			if (input[i] == TRUE)
 			{
-				//“ü—ÍŠÔŒv‘ª
+				//å…¥åŠ›æ™‚é–“è¨ˆæ¸¬
 				inputCount[i]++;
 			}
 			else
 			{
-				//Œv‘ª‚ğƒŠƒZƒbƒg‚·‚é
+				//è¨ˆæ¸¬ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 				inputCount[i] = 0;
 			}
 		}
 
-		//ƒAƒjƒ[ƒVƒ‡ƒ“
+		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 		animation++;
 		if (animation == 5)
 		{
@@ -278,13 +279,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 		}
 
-		//BGMÄ¶
+		//BGMå†ç”Ÿ
 		if (CheckSoundMem(sound.bgm) == 0)
 		{
 			PlaySoundMem(sound.bgm, DX_PLAYTYPE_BACK);
 		}
 
-		// XVˆ—
+		// æ›´æ–°å‡¦ç†
 		switch (scene)
 		{
 		case Title:
@@ -302,13 +303,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
-			//ƒvƒŒƒCƒ„[‚ªˆÚ“®‚µ‚½Œã‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ÌêŠ
-			leftMapnumX = (playerX - playerWidth) / blockSize;
-			rightMapnumX = (playerX + playerWidth - 1) / blockSize;
-			upMapnumY = (playerY - playerHeight) / blockSize;
-			downMapnumY = (playerY + playerHeight - 1) / blockSize;
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç§»å‹•ã—ãŸå¾Œã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®å ´æ‰€
+			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
+			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
+			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
+			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
-			//‚©‚¬’Ü
+			//ã‹ãçˆª
 			if (clawFlag == Normal)
 			{
 				if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
@@ -326,7 +327,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 				}
 
-				//‚©‚¬’Ü‚ÌSE‚Ì’â~
+				//ã‹ãçˆªã®SEã®åœæ­¢
 				StopSoundMem(sound.shot);
 			}
 			else
@@ -335,7 +336,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				switch (clawFlag)
 				{
 				case Launching:
-					//”­Ë’†
+					//ç™ºå°„ä¸­
 					if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[Title]) == 1)
 					{
 						clawFlag = PlayerMove;
@@ -350,7 +351,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 					break;
 				case PlayerMove:
-					//ƒvƒŒƒCƒ„[‚ÌˆÚ“®’†
+					//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ä¸­
 					if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 					{
 						clawFlag = Normal;
@@ -360,7 +361,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 					break;
 				case Cancel:
-					//‚©‚¬’Ü‚Ì‚Í‚Ë•Ô‚µ
+					//ã‹ãçˆªã®ã¯ã­è¿”ã—
 					if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 					{
 						clawFlag = Normal;
@@ -373,15 +374,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					break;
 				}
 
-				//‚©‚¬’Ü‚ÌŒø‰Ê‰¹Ä¶
+				//ã‹ãçˆªã®åŠ¹æœéŸ³å†ç”Ÿ
 				if (CheckSoundMem(sound.shot) == 0)
 				{
 					PlaySoundMem(sound.shot, DX_PLAYTYPE_BACKBIT);
 				}
 			}
 
-			//ƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’èE–ß‚µˆ—
-			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY, &leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[Title], blockSize);
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šãƒ»æˆ»ã—å‡¦ç†
+			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY,
+				&leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[Title], blockSize);
 
 			if (clawFlag == Normal)
 			{
@@ -389,33 +391,35 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				{
 					endFlag = TRUE;
 				}
-				if (playerX >= blockSize * (mapWidth - 8))
+				if (playerX >= blockSize * 22)
 				{
 					scene = StageSelection;
 
-					//‚©‚¬’Ü‚ÌSE‚Ì’â~
+					//ã‹ãçˆªã®SEã®åœæ­¢
 					StopSoundMem(sound.shot);
 				}
 			}
 			break;
 		case StageSelection:
 			Select(&stageSelectX, &stageSelectY, &scene, &stageNo, input, oldInput, inputCount, sound);
-			//Œˆ’è
+			//æ±ºå®š
 			if (input[InputAction] == TRUE && oldInput[InputAction] == FALSE)
 			{
-				//‰Šú‰»ƒtƒ‰ƒO
+				//åˆæœŸåŒ–ãƒ•ãƒ©ã‚°
 				Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 					&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 					&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+				AnimationInit(&animation, &playerAnimation, &wingAnimation,
+					&hungryAnimation, &coinAnimation, &clearAnimation);
 
 				if (scene != Title)
 				{
-					//ƒXƒe[ƒW‚Ì•Û‘¶
-					for (int i = 0; i < 20; i++)
+					//ã‚¹ãƒ†ãƒ¼ã‚¸ã®ä¿å­˜
+					for (int y = 0; y < mapHeight; y++)
 					{
-						for (int j = 0; j < 30; j++)
+						for (int x = 0; x < mapWidth; x++)
 						{
-							oldMapChip[i][j] = mapChip[stageNo][i][j];
+							oldMapChip[y][x] = mapChip[stageNo][y][x];
 						}
 					}
 				}
@@ -438,7 +442,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			if (itemFlag == TRUE)
 			{
-				//‰H
+				//ç¾½
 				if (wingUseFlag == TRUE)
 				{
 					Gravity(&playerY);
@@ -457,7 +461,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 			else
 			{
-				//‚©‚¬’Ü
+				//ã‹ãçˆª
 				if (clawFlag == Normal)
 				{
 					Gravity(&playerY);
@@ -476,7 +480,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						}
 					}
 
-					//‚©‚¬’Ü‚ÌSE‚Ì’â~
+					//ã‹ãçˆªã®SEã®åœæ­¢
 					StopSoundMem(sound.shot);
 				}
 				else
@@ -485,7 +489,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					switch (clawFlag)
 					{
 					case 1:
-						//”­Ë’†
+						//ç™ºå°„ä¸­
 						if (PileHit(clawX, clawY, clawWidth, clawHeight, blockSize, mapChip[stageNo]) == 1)
 						{
 							clawFlag = PlayerMove;
@@ -500,7 +504,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						}
 						break;
 					case 2:
-						//ƒvƒŒƒCƒ„[‚ÌˆÚ“®’†
+						//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ä¸­
 						if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 						{
 							clawFlag = Normal;
@@ -510,7 +514,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						}
 						break;
 					case 3:
-						//‚©‚¬’Ü‚Ì‚Í‚Ë•Ô‚µ
+						//ã‹ãçˆªã®ã¯ã­è¿”ã—
 						if (ClawHit(clawX, clawWidth, playerX, playerWidth) == TRUE)
 						{
 							clawFlag = Normal;
@@ -523,7 +527,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						break;
 					}
 
-					//‚©‚¬’Ü‚ÌŒø‰Ê‰¹Ä¶
+					//ã‹ãçˆªã®åŠ¹æœéŸ³å†ç”Ÿ
 					if (CheckSoundMem(sound.shot) == 0)
 					{
 						PlaySoundMem(sound.shot, DX_PLAYTYPE_BACKBIT);
@@ -531,42 +535,42 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 
-			//ƒvƒŒƒCƒ„[‚ªˆÚ“®‚µ‚½Œã‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ÌêŠ
-			leftMapnumX = (playerX - playerWidth) / blockSize;
-			rightMapnumX = (playerX + playerWidth - 1) / blockSize;
-			upMapnumY = (playerY - playerHeight) / blockSize;
-			downMapnumY = (playerY + playerHeight - 1) / blockSize;
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç§»å‹•ã—ãŸå¾Œã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®å ´æ‰€
+			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
+			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
+			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
+			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
-			//ƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’èE–ß‚µˆ—
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šãƒ»æˆ»ã—å‡¦ç†
 			PlayerCollision(&playerX, &playerY, playerWidth, playerHeight, &memoryX, &memoryY, &leftMapnumX, &rightMapnumX, &upMapnumY, &downMapnumY, input, mapChip[stageNo], blockSize);
 
-			//ƒvƒŒƒCƒ„[‚ÌÕ“Ëˆ—Œã‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ÌêŠ
-			leftMapnumX = (playerX - playerWidth) / blockSize;
-			rightMapnumX = (playerX + playerWidth - 1) / blockSize;
-			upMapnumY = (playerY - playerHeight) / blockSize;
-			downMapnumY = (playerY + playerHeight - 1) / blockSize;
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç§»å‹•ã—ãŸå¾Œã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®å ´æ‰€
+			leftMapnumX = ((playerX - playerWidth) / blockSize) + 1;
+			rightMapnumX = ((playerX + playerWidth - 1) / blockSize) + 1;
+			upMapnumY = ((playerY - playerHeight) / blockSize) + 1;
+			downMapnumY = ((playerY + playerHeight - 1) / blockSize) + 1;
 
-			//ƒRƒCƒ“
+			//ã‚³ã‚¤ãƒ³
 			Coin(&coinNum, mapChip[stageNo], leftMapnumX, rightMapnumX, upMapnumY, downMapnumY, sound.coin);
 
-			//‹ó• 
+			//ç©ºè…¹
 			Food(&hungryTime, &hungryDeathFlag, mapChip[stageNo], leftMapnumX, rightMapnumX, upMapnumY, downMapnumY, stageNo, sound.food);
 
-			//ƒS[ƒ‹
+			//ã‚´ãƒ¼ãƒ«
 			Goal(&coinNum, &clearFlag, &perfectFlag, &keyFlag, &goalFlag, stageCoin, mapChip[stageNo], leftMapnumX, rightMapnumX, upMapnumY, downMapnumY, sound);
 
-			//‹ó• ‚ÌƒGƒtƒFƒNƒg
+			//ç©ºè…¹ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 			if (hungryAnimation >= 3)
 			{
 				hungryAnimation = 0;
 				hungryDeathFlag = FALSE;
 				scene = GameOver;
 
-				//‚©‚¬’Ü‚ÌSE‚Ì’â~
+				//ã‹ãçˆªã®SEã®åœæ­¢
 				StopSoundMem(sound.shot);
 			}
 
-			//—‰º€‚ÌƒGƒtƒFƒNƒg
+			//è½ä¸‹æ­»ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 			if (playerY >= WIN_HEIGHT && fallDeathFlag == FALSE)
 			{
 				fallDeathFlag = TRUE;
@@ -590,22 +594,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						fallDeathFlag = FALSE;
 						scene = GameOver;
 
-						//‚©‚¬’Ü‚ÌSE‚Ì’â~
+						//ã‹ãçˆªã®SEã®åœæ­¢
 						StopSoundMem(sound.shot);
 					}
 				}
 			}
 
-			//DeathFlag‚ÌŒ‹‡
+			//DeathFlagã®çµåˆ
 			if (fallDeathFlag == TRUE || hungryDeathFlag == TRUE)
 			{
 				deathFlag = TRUE;
 			}
 
-			//ƒ{[ƒiƒXƒXƒe[ƒW‚Ìˆ—
+			//ãƒœãƒ¼ãƒŠã‚¹ã‚¹ãƒ†ãƒ¼ã‚¸ã®å‡¦ç†
 			if (stageNo == 20)
 			{
-				//ƒRƒCƒ“‚Ìc‚è–‡”‚ª0‚È‚çƒ}ƒbƒvƒŠƒZƒbƒg
+				//ã‚³ã‚¤ãƒ³ã®æ®‹ã‚Šæšæ•°ãŒ0ãªã‚‰ãƒãƒƒãƒ—ãƒªã‚»ãƒƒãƒˆ
 				if (coinNum % 564 == 0)
 				{
 					for (int y = 0; y < mapHeight; y++)
@@ -617,35 +621,35 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 				}
 
-				//ƒNƒŠƒAƒtƒ‰ƒO
+				//ã‚¯ãƒªã‚¢ãƒ•ãƒ©ã‚°
 				if (hungryTime <= 0)
 				{
 					perfectFlag = 1;
 				}
 			}
 
-			//ƒŠƒgƒ‰ƒC
+			//ãƒªãƒˆãƒ©ã‚¤
 			if (input[InputMenu] == 1 && oldInput[InputMenu] == 0)
 			{
 				scene = Menu;
 			}
 
-			//ƒS[ƒ‹Šm”F—p
+			//ã‚´ãƒ¼ãƒ«ç¢ºèªç”¨
 			if (clearFlag == 1 || perfectFlag == 1)
 			{
-				//strNum‚ğ'\0'‚Å‰Šú‰»
+				//strNumã‚’'\0'ã§åˆæœŸåŒ–
 				for (int i = 0; i < length; i++)
 				{
 					strNum[i] = '\0';
 				}
 
-				//ƒXƒRƒAŒvZ
+				//ã‚¹ã‚³ã‚¢è¨ˆç®—
 				number = coinNum * 1000;
 				sprintf_s(strNum, sizeof(strNum), "%d", number);
 
 				scene = GameClear;
 
-				//‚©‚¬’Ü‚ÌSE‚Ì’â~
+				//ã‹ãçˆªã®SEã®åœæ­¢
 				StopSoundMem(sound.shot);
 			}
 
@@ -672,7 +676,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				case 1:
 					scene = Title;
 					stageNo = 0;
-					//‰Šú‰»ƒtƒ‰ƒO
+					//åˆæœŸåŒ–ãƒ•ãƒ©ã‚°
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
@@ -682,7 +686,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					break;
 				}
 			}
-			//ƒƒjƒ…[ƒ{ƒ^ƒ“‚Å–ß‚é
+			//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒœã‚¿ãƒ³ã§æˆ»ã‚‹
 			if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
 			{
 				scene = Main;
@@ -692,7 +696,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			MusicSelect(&musicSelectY, &seVolume, &bgmVolume, input, oldInput, inputCount, sound);
 			SoundVolumeChange(seVolume, bgmVolume, sound);
-			//ƒƒjƒ…[ƒ{ƒ^ƒ“‚Å–ß‚é
+			//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒœã‚¿ãƒ³ã§æˆ»ã‚‹
 			if (input[InputMenu] == TRUE && oldInput[InputMenu] == FALSE)
 			{
 				scene = Main;
@@ -700,18 +704,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		case GameOver:
 
-			//ã
+			//ä¸Š
 			if (inputCount[InputUp] % 20 == 1)
 			{
 				gameoverSelectY -= 1;
 			}
-			//‰º
+			//ä¸‹
 			if (inputCount[InputDown] % 20 == 1)
 			{
 				gameoverSelectY += 1;
 			}
 
-			//ƒ}ƒCƒiƒX‚É‚µ‚È‚¢
+			//ãƒã‚¤ãƒŠã‚¹ã«ã—ãªã„
 			if (gameoverSelectY < 0) {
 				gameoverSelectY = 1;
 			}
@@ -719,18 +723,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				gameoverSelectY = 0;
 			}
-			//Œˆ’è
+			//æ±ºå®š
 			if (input[InputAction] == 1 && oldInput[InputAction] == 0)
 			{
-				for (int i = 0; i < 20; i++)
+				for (int y = 0; y < mapHeight; y++)
 				{
-					for (int j = 0; j < 30; j++)
+					for (int x = 0; x < mapWidth; x++)
 					{
-						mapChip[stageNo][i][j] = oldMapChip[i][j];
+						mapChip[stageNo][y][x] = oldMapChip[y][x];
 					}
 				}
 
-				//ƒZƒŒƒNƒg‚ÌSEÄ¶
+				//ã‚»ãƒ¬ã‚¯ãƒˆã®SEå†ç”Ÿ
 				PlaySoundMem(sound.decision, DX_PLAYTYPE_BACKBIT);
 
 				if (gameoverSelectY == 1)
@@ -738,17 +742,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					scene = Title;
 					stageNo = 0;
 
-					//‰Šú‰»ƒtƒ‰ƒO
+					//åˆæœŸåŒ–ãƒ•ãƒ©ã‚°
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
 				}
 				else
 				{
-					//‰Šú‰»ƒtƒ‰ƒO
+					//åˆæœŸåŒ–ãƒ•ãƒ©ã‚°
 					Initial(stageNo, &playerX, &playerY, &clawFlag, &chainCount, &shakeX, &shakeY,
 						&stageCoin, &coinNum, &keyFlag, &goalFlag, &perfectFlag, &clearFlag,
 						&hungryTime, &hungryDeathFlag, &fallDeathFlag, &deathFlag);
+					AnimationInit(&animation, &playerAnimation, &wingAnimation, &hungryAnimation, &coinAnimation, &clearAnimation);
 
 					scene = Main;
 				}
@@ -765,11 +771,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					star[stageNo - 1] = TRUE;
 				}
 
-				for (int i = 0; i < 20; i++)
+				for (int y = 0; y < mapHeight; y++)
 				{
-					for (int j = 0; j < 30; j++)
+					for (int x = 0; x < mapWidth; x++)
 					{
-						mapChip[stageNo][i][j] = oldMapChip[i][j];
+						mapChip[stageNo][y][x] = oldMapChip[y][x];
 					}
 				}
 			}
@@ -784,62 +790,64 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		}
 
-		// •`‰æˆ—
+		// æç”»å‡¦ç†
 		switch (scene)
 		{
 		case Title:
-			//”wŒi‚Ì•`‰æ
+			//èƒŒæ™¯ã®æç”»
 			TitleDraw(graph);
 
-			//’n–Ê‚Ì•`‰æ
+			//åœ°é¢ã®æç”»
 			StageDraw(blockSize, mapWidth, mapHeight, mapChip[Title], graph, coinAnimation);
 
-			//Aƒ{ƒ^ƒ“‚Ì•`‰æ
+			//Aãƒœã‚¿ãƒ³ã®æç”»
 			DrawGraph(blockSize * 14, blockSize * 16, graph.aButton, TRUE);
 
-			//‚©‚¬’Ü‚Ì•`‰æ
+			//ã‹ãçˆªã®æç”»
 			if (clawFlag != Normal)
 			{
 				ClawDraw(clawX, clawY, clawWidth, clawHeight, graph, playerTurn, chainCount + 1);
 			}
 
-			//ƒvƒŒƒCƒ„[‚Ì•`‰æ
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æç”»
 			PlayerDraw(playerX, playerY, graph, playerTurn, playerAnimation, input);
 
 			break;
 
 		case Main:
-			//”wŒi‚Ì•`‰æ
+			//èƒŒæ™¯ã®æç”»
 			BGDraw(graph, stageNo);
 
-			//’n–Ê‚Ì•`‰æ
+			//åœ°é¢ã®æç”»
 			StageDraw(blockSize, mapWidth, mapHeight, mapChip[stageNo], graph, coinAnimation);
 
-			//—‰º€‚ÌƒGƒtƒFƒNƒg
+			//è½ä¸‹æ­»ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 			if (shakeX != 0 || shakeY != 0)
 			{
 				BGDraw(graph, stageNo, shakeX, shakeY);
 				StageDraw(blockSize, mapWidth, mapHeight, mapChip[stageNo], graph, coinAnimation, shakeX, shakeY);
 			}
 
-			//‹ó• ƒQ[ƒW
+			//ç©ºè…¹ã‚²ãƒ¼ã‚¸
 			HungryDraw(hungryTime, graph);
+
+			KeyDraw(goalFlag, graph.key);
 
 			if (itemFlag == TRUE)
 			{
-				//‰H‚Ì•`‰æ
+				//ç¾½ã®æç”»
 				WingDraw(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, wingUseFlag);
 			}
 			else
 			{
-				//‚©‚¬’Ü‚Ì•`‰æ
+				//ã‹ãçˆªã®æç”»
 				if (clawFlag != Normal)
 				{
 					ClawDraw(clawX, clawY, clawWidth, clawHeight, graph, playerTurn, chainCount + 1);
 				}
 			}
 
-			//ƒvƒŒƒCƒ„[‚Ì•`‰æ
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æç”»
 			if (hungryDeathFlag == TRUE)
 			{
 				StarvationDrow(playerX, playerY, playerWidth, playerHeight, graph, playerTurn, hungryAnimation);
@@ -850,24 +858,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 			if (scene != Menu)break;
 		case Menu:
-			//ƒƒjƒ…[‰æ–Ê
+			//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”»é¢
 			MenuDraw(MenuSelectY, graph);
 			break;
 		case Music:
 			MusicDraw(musicSelectY, seVolume, bgmVolume, graph);
 			break;
 		case StageSelection:
-			//ƒZƒŒƒNƒg‰æ–Ê
+			//ã‚»ãƒ¬ã‚¯ãƒˆç”»é¢
 			SelectDraw(blockSize, stageSelectX, stageSelectY, star, graph);
 
 			break;
 		case GameOver:
-			//ƒQ[ƒ€ƒI[ƒo[‰æ–Ê
+			//ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”»é¢
 			GameOverDraw(blockSize, gameoverSelectY, graph);
 
 			break;
 		case GameClear:
-			//ƒQ[ƒ€ƒNƒŠƒA‰æ–Ê
+			//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ç”»é¢
 			GameClearDraw(strNum, clearAnimation, graph);
 
 			break;
@@ -875,31 +883,31 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		}
 
-		//ƒfƒoƒbƒO‚Ì•`‰æ
+		//ãƒ‡ãƒãƒƒã‚°ã®æç”»
 		//DebugDraw(blockSize, WIN_WIDTH, WIN_HEIGHT, mapWidth, mapHeight, playerX, playerY, playerWidth, playerHeight);
 
-		//---------  ‚±‚±‚Ü‚Å‚ÉƒvƒƒOƒ‰ƒ€‚ğ‹Lq  ---------//
-		// (ƒ_ƒuƒ‹ƒoƒbƒtƒ@)— –Ê
+		//---------  ã“ã“ã¾ã§ã«ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’è¨˜è¿°  ---------//
+		// (ãƒ€ãƒ–ãƒ«ãƒãƒƒãƒ•ã‚¡)è£é¢
 		ScreenFlip();
 
-		// 20ƒ~ƒŠ•b‘Ò‹@(‹^—60FPS)
+		// 20ãƒŸãƒªç§’å¾…æ©Ÿ(ç–‘ä¼¼60FPS)
 		WaitTimer(20);
 
-		// WindowsƒVƒXƒeƒ€‚©‚ç‚­‚éî•ñ‚ğˆ—‚·‚é
+		// Windowsã‚·ã‚¹ãƒ†ãƒ ã‹ã‚‰ãã‚‹æƒ…å ±ã‚’å‡¦ç†ã™ã‚‹
 		if (ProcessMessage() == -1)
 		{
 			break;
 		}
 
-		// ESCƒL[‚ª‰Ÿ‚³‚ê‚½‚çƒ‹[ƒv‚©‚ç”²‚¯‚é
+		// ESCã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‚‰ãƒ«ãƒ¼ãƒ—ã‹ã‚‰æŠœã‘ã‚‹
 		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1)
 		{
 			break;
 		}
 	}
-	// Dxƒ‰ƒCƒuƒ‰ƒŠI—¹ˆ—
+	// Dxãƒ©ã‚¤ãƒ–ãƒ©ãƒªçµ‚äº†å‡¦ç†
 	DxLib_End();
 
-	// ³íI—¹
+	// æ­£å¸¸çµ‚äº†
 	return 0;
 }
